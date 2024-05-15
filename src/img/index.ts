@@ -58,8 +58,7 @@ const errorgif = "/images/error.gif";
 const transfer = "/images/transfer.gif";
 const transferEther = "/images/ethereTransfer.gif";
 
-
-export default {
+const images = {
   hero2,
   founder1,
   founder2,
@@ -119,4 +118,8 @@ export default {
   errorgif,
   transfer,
   transferEther,
-};
+} as const;
+
+type imagesType = typeof images & { [key: string]: string }
+
+export default images as imagesType
