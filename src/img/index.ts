@@ -120,6 +120,6 @@ const images = {
   transferEther,
 } as const;
 
-type imagesType = typeof images & { [key: string]: string }
+export type imagesType = typeof images & { [key: string]: string }
 
 export default images as imagesType
