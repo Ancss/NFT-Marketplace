@@ -1,19 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import axios from "axios";
-
 //INTERNAL  IMPORT
 import {
   NFTMarketplaceAddress,
   NFTMarketplaceABI,
-  transferFundsAddress,
-  transferFundsABI,
 } from "./constants";
+import { TMarketItem } from "@/type";
+
+
+export type CreateNFTParams = {
+  name: string,
+  price: string,
+  image: string,
+  description: string,
+  router: any,
+};
+
+export type CreateNFT = (params: CreateNFTParams) => Promise<void>
+
+// defined the type of value in the Context
+export type TNFTMarketplaceContextType = {
+  uploadToPinata: (file: File) => Promise<string | undefined>;
+  checkIfWalletConnected: () => Promise<void>;
+  connectWallet: () => Promise<void>;
+  createNFT: CreateNFT;
+  fetchNFTs: () => Promise<TMarketItem[]>;
+  fetchMyNFTsOrListedNFTs: (type?: string) => Promise<TMarketItem[]>;
+  buyNFT: (nftId: TMarketItem) => void;
+  createSale: (url: string, formInputPrice: CreateNFTParams['price'], isReselling?: boolean, id?: string) => void;
+  currentAccount: string | null;
+  titleData: string;
+  setOpenError: (open: boolean) => void;
+  openError: boolean;
+  setError: Dispatch<SetStateAction<string>>;
+  error: string | null;
+  accountBalance: string;
+};
+
 
 //---FETCHING SMART CONTRACT
-const fetchContract = (signerOrProvider) =>
+const fetchContract = (signerOrProvider: ethers.Signer | ethers.providers.Provider) =>
   new ethers.Contract(
     NFTMarketplaceAddress,
     NFTMarketplaceABI,
@@ -21,10 +50,10 @@ const fetchContract = (signerOrProvider) =>
   );
 
 //---CONNECTING WITH SMART CONTRACT
+const web3Modal = new Web3Modal();
 
 const connectingWithSmartContract = async () => {
   try {
-    const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
@@ -36,9 +65,9 @@ const connectingWithSmartContract = async () => {
   }
 };
 
-export const NFTMarketplaceContext = React.createContext();
+export const NFTMarketplaceContext = React.createContext<TNFTMarketplaceContextType | null>(null);
 
-export const NFTMarketplaceProvider = ({ children }) => {
+export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode }) => {
   const titleData = "Discover, collect, and sell NFTs";
 
   //------USESTAT
@@ -105,7 +134,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   //---UPLOAD TO IPFS FUNCTION
-  const uploadToPinata = async (file) => {
+  const uploadToPinata = async (file: File) => {
     if (file) {
       try {
         const formData = new FormData();
@@ -132,7 +161,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   //---CREATENFT FUNCTION
-  const createNFT = async (name, price, image, description, router) => {
+  const createNFT: CreateNFT = async ({ name, price, image, description, router }) => {
     if (!name || !description || !price || !image)
       return setError("Data Is Missing"), setOpenError(true);
 
@@ -163,22 +192,22 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   //--- createSale FUNCTION
-  const createSale = async (url, formInputPrice, isReselling, id) => {
+  const createSale: TNFTMarketplaceContextType['createSale'] = async (url, formInputPrice, isReselling?, id?) => {
     try {
       console.log(url, formInputPrice, isReselling, id);
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
 
       const contract = await connectingWithSmartContract();
-
+      if (!contract) return
       const listingPrice = await contract.getListingPrice();
 
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
-            value: listingPrice.toString(),
-          })
+          value: listingPrice.toString(),
+        })
         : await contract.resellToken(id, price, {
-            value: listingPrice.toString(),
-          });
+          value: listingPrice.toString(),
+        });
 
       await transaction.wait();
       console.log(transaction);
@@ -191,9 +220,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   //--FETCHNFTS FUNCTION
 
-  const fetchNFTs = async () => {
+  const fetchNFTs: TNFTMarketplaceContextType['fetchNFTs'] = async () => {
     try {
-      const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
 
@@ -205,7 +233,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
       const items = await Promise.all(
         data.map(
-          async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+          async ({ tokenId, seller, owner, price: unformattedPrice }: TMarketItem) => {
             const tokenURI = await contract.tokenURI(tokenId);
 
             const {
@@ -218,7 +246,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
             return {
               price,
-              tokenId: tokenId.toNumber(),
+              tokenId: tokenId?.toString(),
               seller,
               owner,
               image,
@@ -236,6 +264,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       // setError("Error while fetching NFTS");
       // setOpenError(true);
       console.log(error);
+      return []
     }
   };
 
@@ -244,11 +273,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
   }, []);
 
   //--FETCHING MY NFT OR LISTED NFTs
-  const fetchMyNFTsOrListedNFTs = async (type) => {
+  const fetchMyNFTsOrListedNFTs:TNFTMarketplaceContextType['fetchMyNFTsOrListedNFTs'] = async (type?: string) => {
     try {
       if (currentAccount) {
         const contract = await connectingWithSmartContract();
-
+        if (!contract) return []
         const data =
           type == "fetchItemsListed"
             ? await contract.fetchItemsListed()
@@ -256,7 +285,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
         const items = await Promise.all(
           data.map(
-            async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+            async ({ tokenId, seller, owner, price: unformattedPrice }: TMarketItem) => {
               const tokenURI = await contract.tokenURI(tokenId);
               const {
                 data: { image, name, description },
@@ -268,7 +297,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
               return {
                 price,
-                tokenId: tokenId.toNumber(),
+                tokenId: tokenId?.toString(),
                 seller,
                 owner,
                 image,
@@ -281,9 +310,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
         );
         return items;
       }
+      return []
     } catch (error) {
       // setError("Error while fetching listed NFTs");
       // setOpenError(true);
+      return []
     }
   };
 
@@ -292,9 +323,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
   }, []);
 
   //---BUY NFTs FUNCTION
-  const buyNFT = async (nft) => {
+  const buyNFT: TNFTMarketplaceContextType['buyNFT'] = async (nft) => {
     try {
       const contract = await connectingWithSmartContract();
+      if (!contract) return
       const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
 
       const transaction = await contract.createMarketSale(nft.tokenId, {
@@ -316,6 +348,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         checkIfWalletConnected,
         connectWallet,
         createNFT,
+        setError,
         fetchNFTs,
         fetchMyNFTsOrListedNFTs,
         buyNFT,

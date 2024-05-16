@@ -226,7 +226,7 @@
               "type": "bool"
             }
           ],
-          "internalType": "struct NFTMarketplace.MarketItem[]",
+          "internalType": "struct NFTMarketplace.TMarketItem[]",
           "name": "",
           "type": "tuple[]"
         }
@@ -266,7 +266,7 @@
               "type": "bool"
             }
           ],
-          "internalType": "struct NFTMarketplace.MarketItem[]",
+          "internalType": "struct NFTMarketplace.TMarketItem[]",
           "name": "",
           "type": "tuple[]"
         }
@@ -306,7 +306,7 @@
               "type": "bool"
             }
           ],
-          "internalType": "struct NFTMarketplace.MarketItem[]",
+          "internalType": "struct NFTMarketplace.TMarketItem[]",
           "name": "",
           "type": "tuple[]"
         }
