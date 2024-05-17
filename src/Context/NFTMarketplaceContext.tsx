@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 //INTERNAL  IMPORT
 import {
@@ -40,7 +42,6 @@ export type TNFTMarketplaceContextType = {
   accountBalance: string;
 };
 
-
 //---FETCHING SMART CONTRACT
 const fetchContract = (signerOrProvider: ethers.Signer | ethers.providers.Provider) =>
   new ethers.Contract(
@@ -48,10 +49,9 @@ const fetchContract = (signerOrProvider: ethers.Signer | ethers.providers.Provid
     NFTMarketplaceABI,
     signerOrProvider
   );
+const web3Modal = globalThis.window && new Web3Modal();
 
 //---CONNECTING WITH SMART CONTRACT
-const web3Modal = new Web3Modal();
-
 const connectingWithSmartContract = async () => {
   try {
     const connection = await web3Modal.connect();
@@ -84,12 +84,12 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
 
-      const accounts = await window.ethereum.request({
+      const accounts = await window.ethereum.request<string[]>({
         method: "eth_accounts",
       });
 
-      if (accounts.length) {
-        setCurrentAccount(accounts[0]);
+      if (accounts && accounts.length) {
+        setCurrentAccount(accounts[0]!);
         // console.log(accounts[0]);
       } else {
         // setError("No Account Found");
@@ -97,8 +97,10 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
         console.log("No account");
       }
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const getBalance = await provider.getBalance(accounts[0]);
+      const connection = await web3Modal.connect();
+
+      const provider = new ethers.providers.Web3Provider(connection);
+      const getBalance = await provider.getBalance(accounts?.[0]!);
       const bal = ethers.utils.formatEther(getBalance);
       setAccountBalance(bal);
     } catch (error) {
@@ -114,6 +116,7 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
 
   //---CONNET WALLET FUNCTION
   const connectWallet = async () => {
+
     try {
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
@@ -129,7 +132,7 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
       connectingWithSmartContract();
     } catch (error) {
       // setError("Error while connecting to wallet");
-      // setOpenError(true);
+      setOpenError(true);
     }
   };
 
@@ -273,7 +276,7 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
   }, []);
 
   //--FETCHING MY NFT OR LISTED NFTs
-  const fetchMyNFTsOrListedNFTs:TNFTMarketplaceContextType['fetchMyNFTsOrListedNFTs'] = async (type?: string) => {
+  const fetchMyNFTsOrListedNFTs: TNFTMarketplaceContextType['fetchMyNFTsOrListedNFTs'] = async (type?: string) => {
     try {
       if (currentAccount) {
         const contract = await connectingWithSmartContract();
