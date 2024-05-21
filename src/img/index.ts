@@ -39,7 +39,7 @@ const getAble = "/images/getable.png";
 const nft_image_1 = "/images/nft-image-1.png";
 const nft_image_2 = "/images/nft-image-2.png";
 const nft_image_3 = "/images/nft-image-3.png";
-const musiceWave = "/images/musicwave.png";
+const musicWave = "/images/musicwave.png";
 const update = "/images/update.png";
 const earn = "/images/eran.png";
 const NFTVideo = "/images/nftvideo.png";
@@ -73,7 +73,7 @@ const images = {
   earn,
   collection,
   update,
-  musiceWave,
+  musicWave,
   nft_image_1,
   nft_image_2,
   nft_image_3,
