@@ -37,8 +37,7 @@ const NFTCardTwo = ({ NFTs }: { NFTs: TMarketItem[] }) => {
                 alt="NFT"
                 width={100}
                 height={100}
-                className={cn('rounded-lg')}
-                objectFit="cover"
+                className={cn('rounded-lg object-cover')}
               />
             </div>
             <div className={cn('flex justify-between p-4')}>

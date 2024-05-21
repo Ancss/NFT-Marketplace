@@ -15,8 +15,7 @@ const Error: React.FC = () => {
             src={images.errorgif}
             width={200}
             height={200}
-            objectFit="cover"
-            className=""
+            className=" object-cover"
           />
           <p className="text-1.3rem text-icons">{error}</p>
         </div>

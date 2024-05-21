@@ -23,8 +23,7 @@ const Video = () => {
               alt="Video image"
               width={1920}
               height={1080}
-              objectFit="cover"
-              className={cn("rounded-lg")}
+              className={cn("rounded-lg object-cover")}
             />
           </div>
 

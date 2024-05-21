@@ -28,7 +28,7 @@ const NFTDetailsImg = ({ nft }:{nft:TMarketItem}) => {
               </p>
             </div>
             <div>
-              <Image src={nft.image} alt="NFT image" layout="fill" className={cn("rounded-[1rem] w-full")} objectFit="cover" />
+              <Image src={nft.image} alt="NFT image" layout="fill" className={cn("rounded-[1rem] w-full object-cover")} />
             </div>
           </div>
         </div>

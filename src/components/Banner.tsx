@@ -8,7 +8,6 @@ const Banner = ({ bannerImage }:{bannerImage:string}) => {
       <div className={cn('hidden lg:block')}>
         <Image
           src={bannerImage}
-          objectFit="cover"
           alt="background2"
           width={1600}
           height={100}
@@ -19,11 +18,10 @@ const Banner = ({ bannerImage }:{bannerImage:string}) => {
       <div className={cn('block lg:hidden')}>
         <Image
           src={bannerImage}
-          objectFit="cover"
           alt="background1"
           width={1600}
           height={300}
-          className=' h-72 w-full'
+          className=' h-72 w-full object-cover'
         />
       </div>
     </div>
