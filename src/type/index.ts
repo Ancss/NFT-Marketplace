@@ -1,12 +1,12 @@
-export type MarketItem = {
-  tokenId: number;
+export type TMarketItem = {
+  tokenId: string |null;
   seller: string;
   owner: string;
-  price: number;
-  sold: boolean;
+  price: string;
+  sold?: boolean;
   image: string;
   name: string;
-  description: string;
-  tokenURI: string;
+  description?: string;
+  tokenURI?: string;
 
 };
