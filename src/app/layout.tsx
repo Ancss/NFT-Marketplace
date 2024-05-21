@@ -26,12 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(
-        "min-h-screen bg-background font-sans antialiased",
+        "w-full min-h-screen bg-background font-sans antialiased",
         'text-sm bg-main-bg text-icons m-0 p-0',
 
         inter.className
       )}>
-        <div className="w-11/12  sm:w-4/5 mx-auto">
+        <div className="w-full px-4 sm:px-12 md:px-16 lg:px-36 mx-auto">
           <NFTMarketplaceProvider>
             <NavBar />
             {children}

@@ -53,8 +53,8 @@ const Home = () => {
         heading="Audio Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
-      {/* <AudioLive />
-      {creators.length == 0 ? (
+      <AudioLive />
+       {creators.length == 0 ? (
         <Loader />
       ) : (
         <FollowerTab TopCreator={creators} />
@@ -76,7 +76,7 @@ const Home = () => {
       <Category />
       <Subscribe />
       <Brand />
-      <Video /> */}
+      <Video />
     </div>
   );
 };
