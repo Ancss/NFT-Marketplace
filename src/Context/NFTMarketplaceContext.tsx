@@ -84,7 +84,7 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
 
-      const accounts = await window.ethereum.request<string[]>({
+      const accounts = await window.ethereum.request({
         method: "eth_accounts",
       });
 
