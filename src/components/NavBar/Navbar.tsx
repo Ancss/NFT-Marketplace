@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from "react";
 import Image from "next/image";
-import { DiJqueryLogo } from "react-icons/di";
+import { DiAws } from "react-icons/di";
 import { MdNotifications } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { CgMenuRight } from "react-icons/cg";
@@ -16,7 +16,48 @@ import Profile from "./Profile";
 import SideBar from "./SideBar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Discover from "./Discover";
+import DropDown from "../DropDown";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
+
+const discoverItems = [
+  {
+    name: "Collection",
+    link: "collection",
+  },
+  {
+    name: "Search",
+    link: "searchPage",
+  },
+  {
+    name: "Author Profile",
+    link: "author",
+  },
+  {
+    name: "Account Setting",
+    link: "account",
+  },
+  {
+    name: "Upload NFT",
+    link: "uploadNFT",
+  },
+  {
+    name: "Connect Wallet",
+    link: "connectWallet",
+  },
+  {
+    name: "Blog",
+    link: "blog",
+  },
+];
+const helpItems = [
+  { name: "About", link: "aboutus" },
+  { name: "Contact Us", link: "contactus" },
+  { name: "Sign Up", link: "signUp" },
+  { name: "LogIn", link: "login" },
+  { name: "Subscription", link: "subscription" },
+];
 const NavBar = () => {
   const [discover, setDiscover] = useState(false);
   const [help, setHelp] = useState(false);
@@ -31,28 +72,41 @@ const NavBar = () => {
     <div className="relative  z-50  mx-auto mt-8 mb-12">
       <div className="grid grid-cols-[1fr_3fr] md:grid-cols-2 sm:grid-cols-[1fr_4fr] gap-4 items-center">
         <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
-          <DiJqueryLogo className="text-icons text-6xl cursor-pointer" onClick={() => router.push("/")} />
+          <Link href={{ pathname: '/' }}>
+            <DiAws className="text-icons text-6xl cursor-pointer" />
+          </Link>
           <div className=" items-center w-3/5  border-2 border-icons rounded-full p-2 hidden md:flex">
             <input className="w-full placeholder:text-primary bg-transparent outline-none px-2" type="text" placeholder="Search NFT" />
             <BsSearch className="text-2xl cursor-pointer mr-4" />
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr] md:grid-cols-[1fr_1fr_0.5fr_1fr_0.5fr]  gap-4 items-center justify-items-center">
-          <p className="cursor-pointer text-lg md:block hidden" onClick={() => setDiscover(!discover)}>Discover</p>
-          <p className="cursor-pointer text-lg md:block hidden whitespace-nowrap" onClick={() => setHelp(!help)}>Help Center</p>
+        <div className="grid grid-cols-[1fr_1fr_1fr] md:grid-cols-[1fr_1fr_0.5fr_1fr_0.5fr]  gap-4 items-center justify-items-center">
+          <DropDown items={discoverItems} text="Discover" className="cursor-pointer text-lg md:block hidden"></DropDown>
+          <DropDown items={helpItems} text="Help Center" className="cursor-pointer text-lg md:block hidden whitespace-nowrap" ></DropDown>
           <div className="relative cursor-pointer">
-            <MdNotifications className="text-3xl" onClick={() => setNotification(!notification)} />
-            {notification && <Notification />}
+            <DropdownMenu >
+              <DropdownMenuTrigger className="" >
+                <MdNotifications className="text-3xl" />
+
+              </DropdownMenuTrigger >
+              <DropdownMenuContent className=" bg-main-bg border border-primary">
+                <DropdownMenuLabel className="mt-4">
+                  <Notification />
+                </DropdownMenuLabel>
+
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+
           </div>
           {currentAccount === "" ? (
-            <Button className=" w-10/12" onClick={connectWallet} >Connect</Button>
+            <Button className=" w-10/12 md:block hidden min-w-20 px-0" onClick={connectWallet} >Connect</Button>
           ) : (
-            <Button className="w-10/12" onClick={() => router.push("/uploadNFT")} >Create</Button>
+            <Button className="w-10/12 md:block hidden min-w-20 px-0" onClick={() => router.push("/uploadNFT")} >Create</Button>
           )}
           <div className="relative cursor-pointer">
-            <Image src={images.user1} alt="Profile" width={40} height={40} className="rounded-full" onClick={() => setProfile(!profile)} />
-            {profile && <Profile currentAccount={currentAccount!} />}
+            <Profile currentAccount={currentAccount!} />
           </div>
           <div className="relative cursor-pointer md:hidden">
             <CgMenuRight
@@ -63,13 +117,15 @@ const NavBar = () => {
         </div>
       </div>
 
-      {openSideMenu && (
-        <div className="fixed left-0 top-0 w-9/12 bg-main-bg shadow-custom z-40 h-screen overflow-y-auto">
-          <SideBar setOpenSideMenu={() => setOpenSideMenu(false)} currentAccount={currentAccount!} connectWallet={connectWallet} />
-        </div>
-      )}
+      {
+        openSideMenu && (
+          <div className="fixed left-0 top-0 w-9/12 bg-main-bg shadow-custom z-40 h-screen overflow-y-auto">
+            <SideBar setOpenSideMenu={() => setOpenSideMenu(false)} currentAccount={currentAccount!} connectWallet={connectWallet} />
+          </div>
+        )
+      }
       {openError && <Error />}
-    </div>
+    </div >
   );
 };
 

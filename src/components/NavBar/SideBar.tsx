@@ -12,7 +12,7 @@ import {
   TiSocialInstagram,
   TiArrowSortedDown,
 } from "react-icons/ti";
-import { DiJqueryLogo } from "react-icons/di";
+import { DiAws } from "react-icons/di";
 
 // Internal imports
 import images from "@/img"; // Updated to use absolute path
@@ -92,15 +92,16 @@ const SideBar: React.FC<SideBarProps> = ({ setOpenSideMenu, currentAccount, conn
   ];
 
   return (
-    <div className={cn("absolute top-0 left-0 w-full h-full bg-[#1b181e] z-50")}>
+    <div className={cn("absolute top-0 left-0 w-full h-full bg-main-bg z-50")}>
       <GrClose
         className={cn("absolute top-12 right-12 cursor-pointer transition duration-200 ease-in-out text-icons hover:rotate-45")}
         onClick={() => setOpenSideMenu(false)}
       />
       <div className={cn("p-8 pt-0 pb-2 border-b border-icons-light bg-main-bg")}>
-        <a href="/">
-          <DiJqueryLogo className={cn("text-5xl my-8")} />
-        </a>
+        <Link href={{ pathname: '/' }}>
+          <DiAws className={cn("text-5xl my-8")} />
+        </Link>
+
         <p>
           Discover the most outstanding articles on all topics of NFT & write your own stories and share them.
         </p>

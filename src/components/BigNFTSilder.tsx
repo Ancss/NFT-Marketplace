@@ -95,7 +95,7 @@ const BigNFTSilder = () => {
   return (
     <div className="mt-16 mb-36 md:mb-12 mx-auto w-4/5tt">
       <div className="grid grid-cols-1 grid-rows-12 md:grid-cols-12 md:grid-rows-12 gap-8 items-center h-[80vh]">
-        <div className=" md:h-full row-[6/-1] col-span-full md:col-[1_/7] border border-primary md:row-span-full bg-main-bg shadow-lg rounded-lg p-8 relative z-10">
+        <div className=" md:h-full row-[6/-1] col-span-full md:col-[1_/7] border border-primary md:row-span-full bg-main-bg shadow-custom rounded-lg p-8 relative z-10">
           <h2 className="text-3xl mb-4">{sliderData[idNumber].title}</h2>
           <div className="flex justify-between">
             <div className="flex items-center gap-4">
@@ -117,7 +117,7 @@ const BigNFTSilder = () => {
           </div>
           <div className="mt-8">
             <div className="border-4 h-24 border-shadow-dark rounded-md my-8 px-12 ">
-              <small className=" bg-shadow-dark py-6 px-8 rounded-lg text-lg">Current Bid</small>
+              <small className=" bg-shadow-dark py-6 px-8 rounded-lg text-lg whitespace-nowrap">Current Bid</small>
               <p className="mt-8">{sliderData[idNumber].price} <span>$221,21</span></p>
             </div>
             <div className="flex items-center gap-4">
@@ -140,10 +140,14 @@ const BigNFTSilder = () => {
             <TbArrowBigRightLine className="cursor-pointer text-3xl" onClick={inc} />
           </div>
         </div>
-        <div className="h-[40vh] md:h-[80%] row-[1/5] w-10/12 mx-auto col-span-full md:col-[5_/_-1] md:row-span-full border border-primary  bg-main-bg shadow-lg rounded-2xl p-4 relative">
+        <div className="h-[100vh] md:h-[unset]  row-[1/-1] w-10/12 mx-auto col-span-full md:col-[5_/_-1] md:row-span-full border border-primary  bg-main-bg shadow-custom rounded-2xl p-4 relative">
           <div className=" w-full h-full clip-path-content rounded-lg" style={{
           }}>
-            <Image src={sliderData[idNumber].nftImage} alt="NFT IMAGE" layout='fill' className="rounded-2xl" />
+            <Image src={sliderData[idNumber].nftImage} alt="NFT IMAGE"
+              layout="responsive" 
+              width={50}
+              height={50}
+              className="rounded-2xl" />
             <div className="absolute top-12 right-12 flex items-center gap-4 bg-icons text-shadow-dark p-2 rounded-full">
               <AiFillHeart />
               <span>{sliderData[idNumber].like}</span>

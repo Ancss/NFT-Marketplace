@@ -1,5 +1,5 @@
 import React from 'react';
-import { DiJqueryLogo } from 'react-icons/di';
+import { DiAws  } from 'react-icons/di';
 import { TiSocialFacebook, TiSocialLinkedin, TiSocialTwitter, TiSocialYoutube, TiSocialInstagram } from 'react-icons/ti';
 import { RiSendPlaneFill } from 'react-icons/ri';
 import Discover from './NavBar/Discover';
@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="w-4/5tt mx-auto grid grid-cols-2 gap-12 items-start justify-between md:grid-cols-[1fr_1fr_1fr_2fr] sm:grid-cols-2">
         <div className='col-span-full md:col-span-1'>
           <a href="/">
-            <DiJqueryLogo className="text-5xl" />
+            <DiAws  className="text-5xl" />
           </a>
           <p className='my-4'>
             The world’s first and largest digital marketplace for crypto
