@@ -26,10 +26,12 @@ const NFTDetails = () => {
     const queryNft: TMarketItem = {
       image: searchParams.get('image') || "",
       tokenId: searchParams.get('tokenId') || "",
+      tokenURI: searchParams.get('tokenURI') || "",
       name: searchParams.get('name') || "",
       owner: searchParams.get('owner') || "",
       price: searchParams.get('price') || "",
       seller: searchParams.get('seller') || "",
+      description: searchParams.get('description') || "",
     };
 
     setNft(queryNft);

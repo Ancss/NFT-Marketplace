@@ -16,7 +16,7 @@ const NFTTabs = ({ dataTab, icon }: { dataTab: string[], icon?: React.ReactNode}
             className={cn("rounded-full")}
           />
           <div className={cn("grid self-start line-height-[1] mt-[6px]")}>
-            <span className={cn("font-bold")}>
+            <span className={cn("font-bold flex items-center")}>
               Offer by $770 by <span>Shoaib Bhai</span>
               {icon}
             </span>

@@ -11,7 +11,7 @@ const Title: React.FC<TitleProps> = ({ heading, paragraph }) => {
     <div className={cn("w-full")}>
       <div className={cn("w-4/5tt mx-auto md:w-9/10")}>
         <h2 className={cn("md:text-6xl leading-none text-3xl")}>{heading}</h2>
-        <p>{paragraph}</p>
+        <p className="mt-2">{paragraph}</p>
       </div>
     </div>
   );

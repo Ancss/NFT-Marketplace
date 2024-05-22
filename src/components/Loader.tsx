@@ -20,6 +20,7 @@ const Loader = () => {
             width={200}
             height={200}
             className={cn("rounded-full object-cover")}
+            unoptimized
           />
         </div>
       </div>

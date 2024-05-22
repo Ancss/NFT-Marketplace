@@ -24,16 +24,16 @@ const SearchBar = ({ onHandleSearch, onClearSearch }: { onHandleSearch: (v: stri
 
   return (
     <div className={cn('w-full')}>
-      <div className={cn('mx-auto w-2/5 bg-main-bg text-main-bg flex items-center rounded-full mt-32 mb-12 shadow-custom', 'sm:w-11/12tttt sm:mt-8 sm:mb-4')}>
-        <BsSearch className={cn('text-6xl p-2 pl-4 cursor-pointer text-primary')} />
+      <div className={cn('mx-auto  bg-main-bg text-main-bg flex items-center rounded-full mt-32 mb-12 shadow-custom', '')}>
+        <BsSearch className={cn('text-6xl p-2 pl-6 cursor-pointer text-primary')} />
         <input
           type="text"
           placeholder="Type your keyword..."
           onChange={(e) => setSearchItem(e.target.value)}
           value={searchItem}
-          className={cn(' text-primary border-none outline-none p-8 bg-main-bg placeholder-primary text-2xl')}
+          className={cn(' flex-1 text-primary border-none outline-none p-8 bg-main-bg placeholder-primary text-2xl')}
         />
-        <BsArrowRight className={cn('text-6xl p-2 cursor-pointer text-primary')} />
+        <BsArrowRight className={cn('text-6xl p-2 pr-6 cursor-pointer text-primary')} />
       </div>
     </div>
   );

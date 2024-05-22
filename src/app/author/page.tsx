@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useContext } from "react";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +13,6 @@ import AuthorNFTCardBox from "./AuthorNFTCardBox";
 import AuthorProfileCard from "./AuthorProfileCard";
 import AuthorTaps from "./AuthorTabs";
 import { TMarketItem } from "@/type";
-
 
 const Author = () => {
   const followerArray = [
@@ -55,21 +54,29 @@ const Author = () => {
   const [follower, setFollower] = useState(false);
   const [following, setFollowing] = useState(false);
 
-  const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(NFTMarketplaceContext)!;
+  const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(
+    NFTMarketplaceContext
+  )!;
   const [nfts, setNfts] = useState<TMarketItem[]>([]);
   const [myNFTs, setMyNFTs] = useState<TMarketItem[]>([]);
 
   useEffect(() => {
-    fetchMyNFTsOrListedNFTs("fetchItemsListed").then((items: TMarketItem[] | undefined) => {
-      setNfts(items!);
-    });
-  }, []);
+    fetchMyNFTsOrListedNFTs("fetchItemsListed").then(
+      (items: TMarketItem[] | undefined) => {
+        console.log(items)
+        setNfts(items!);
+      }
+    );
+  }, [currentAccount]);
 
   useEffect(() => {
-    fetchMyNFTsOrListedNFTs("fetchMyNFTs").then((items: TMarketItem[] | undefined) => {
-      setMyNFTs(items!);
-    });
-  }, []);
+    fetchMyNFTsOrListedNFTs("fetchMyNFTs").then(
+      (items: TMarketItem[] | undefined) => {
+        console.log(items)
+        setMyNFTs(items!);
+      }
+    );
+  }, [currentAccount]);
 
   return (
     <div>
@@ -93,8 +100,15 @@ const Author = () => {
         nfts={nfts}
         myNFTs={myNFTs}
       />
-      <Title heading="Popular Creators" paragraph="Click on music icon and enjoy NTF music or audio" />
-      <div className={cn("w-4/5tt mx-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 mt-24 ")}>
+      <Title
+        heading="Popular Creators"
+        paragraph="Click on music icon and enjoy NTF music or audio"
+      />
+      <div
+        className={cn(
+          "w-4/5tt mx-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 mt-24 "
+        )}
+      >
         {followerArray.map((el, i) => (
           <FollowerTabCard key={i} i={i} el={el} />
         ))}

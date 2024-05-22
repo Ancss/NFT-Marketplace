@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { RiUserFollowFill, RiUserUnfollowFill, RiAwardLine } from 'react-icons/ri';
-import { cn } from '@/lib/utils';
-import FollowerTabCard from '@/components/FollowerTabCard';
-import images from '@/img';
+import React, { useState } from "react";
+import {
+  RiUserFollowFill,
+  RiUserUnfollowFill,
+  RiAwardLine,
+} from "react-icons/ri";
+import { cn } from "@/lib/utils";
+import FollowerTabCard from "@/components/FollowerTabCard";
+import images from "@/img";
+import { Button } from "./ui/button";
 
 interface FollowerTabProps {
   TopCreator: Array<any>;
 }
 
 const FollowerTab: React.FC<FollowerTabProps> = ({ TopCreator }) => {
-  const [tab, setTab] = useState('popular');
+  const [tab, setTab] = useState("popular");
   const FollowingArray = [
     {
       background: images.creatorbackground3,
@@ -85,61 +90,90 @@ const FollowerTab: React.FC<FollowerTabProps> = ({ TopCreator }) => {
     },
   ];
   return (
-    <div className={cn('w-full relative pb-52 padding-6 padding-0 sm:pb-24')}>
-      <div className={cn('w-96 mx-auto pb-24 text-center sm:w-full')}>
-        <h2 className={cn('text-3rem mb-16 sm:text-2rem')}>Top Creators List..</h2>
-        <div className={cn('bg-main-bg p-2 rounded-full flex justify-around gap-4 items-center text-1.2rem shadow-custom sm:text-1rem')}>
-          <button
-            className={cn('bg-icons text-main-bg p-4 rounded-full cursor-pointer border-none', tab === 'popular' ? 'border' : 'border-transparent')}
-            onClick={() => setTab('popular')}
+    <div className={cn("w-full relative pb-52 padding-6 padding-0 sm:pb-24")}>
+      <div className={cn("w-96 mx-auto pb-24 text-center sm:w-full")}>
+        <h2 className={cn("text-3xl text-primary mb-16 font-bold")}>
+          Top Creators List..
+        </h2>
+        <div
+          className={cn(
+            "bg-main-bg p-2 rounded-full flex justify-around gap-4 items-center text-1.2rem shadow-custom sm:text-1rem"
+          )}
+        >
+          <Button
+            className={cn(
+              "bg-icons text-main-bg p-4 rounded-full cursor-pointer border-none",
+              tab === "popular" ? "border" : "border-transparent"
+            )}
+            onClick={() => setTab("popular")}
           >
             <RiUserFollowFill /> Popular
-          </button>
-          <button
-            className={cn('bg-icons text-main-bg p-4 rounded-full cursor-pointer border-none', tab === 'following' ? 'border' : 'border-transparent')}
-            onClick={() => setTab('following')}
+          </Button>
+          <Button
+            className={cn(
+              "bg-icons text-main-bg p-4 rounded-full cursor-pointer border-none",
+              tab === "following" ? "border" : "border-transparent"
+            )}
+            onClick={() => setTab("following")}
           >
             <RiUserFollowFill /> Following
-          </button>
-          <button
-            className={cn('bg-icons text-main-bg p-4 rounded-full cursor-pointer border-none', tab === 'news' ? 'border' : 'border-transparent')}
-            onClick={() => setTab('news')}
+          </Button>
+          <Button
+            className={cn(
+              "bg-icons text-main-bg p-4 rounded-full cursor-pointer border-none",
+              tab === "news" ? "border" : "border-transparent"
+            )}
+            onClick={() => setTab("news")}
           >
             <RiAwardLine /> NoteWorthy
-          </button>
+          </Button>
         </div>
       </div>
 
-      {tab === 'popular' && (
-        <div className={cn('w-4/5tt mx-auto grid grid-cols-4 gap-8 sm:grid-cols-1 md:grid-cols-2')}>
+      {tab === "popular" && (
+        <div
+          className={cn(
+            "w-4/5tt mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+          )}
+        >
           {TopCreator.map((el, i) => (
             <FollowerTabCard key={i} i={i} el={el} />
           ))}
         </div>
       )}
 
-      {tab === 'following' && (
-        <div className={cn('w-4/5tt mx-auto grid grid-cols-4 gap-8 sm:grid-cols-1 md:grid-cols-2')}>
+      {tab === "following" && (
+        <div
+          className={cn(
+            "w-4/5tt mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+          )}
+        >
           {FollowingArray.map((el, i) => (
             <FollowerTabCard key={i + 1} i={i} el={el} />
-          ))}        </div>
+          ))}{" "}
+        </div>
       )}
 
-      {tab === 'news' && (
-        <div className={cn('w-4/5tt mx-auto grid grid-cols-4 gap-8 sm:grid-cols-1 md:grid-cols-2')}>
+      {tab === "news" && (
+        <div
+          className={cn(
+            "w-4/5tt mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+          )}
+        >
           {NewsArray.map((el, i) => (
             <FollowerTabCard key={i + 1} i={i} el={el} />
-          ))}        </div>
+          ))}{" "}
+        </div>
       )}
 
-      <div className={cn('text-center')}>
-        <div className={cn('mx-auto p-28')}>
-          <a className={cn('bg-transparent text-icons transition-all mx-6 p-4 rounded-full border sm:font-0.8rem sm:p-2')} href="#">
-            Show me more
-          </a>
-          <a className={cn('bg-icons mx-6 p-4 text-main-bg rounded-full border shadow-custom text-1.3rem sm:text-0.8rem sm:p-2')} href="#">
-            Become an author
-          </a>
+      <div className={cn("text-center")}>
+        <div className={cn("mx-auto p-28")}>
+          <Button className="mr-8">
+            <a href="#">Show me more</a>
+          </Button>
+          <Button>
+            <a href="#">Become an author</a>
+          </Button>
         </div>
       </div>
     </div>

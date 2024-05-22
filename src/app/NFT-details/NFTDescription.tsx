@@ -28,6 +28,7 @@ import { TMarketItem } from "@/type";
 import NFTTabs from "./NFTTabs";
 import { Button } from "@/components/ui/button";
 import DropDown from "@/components/DropDown";
+import { useTimer } from "react-timer-hook";
 
 const cloudItems = [
   {
@@ -62,7 +63,7 @@ const cloudItems = [
       </div>
     ),
   },
-]
+];
 const helpsItems = [
   {
     link: "",
@@ -96,7 +97,31 @@ const helpsItems = [
       </div>
     ),
   },
-]
+];
+const provenanceArray = [
+  images.user6,
+  images.user7,
+  images.user8,
+  images.user9,
+  images.user10,
+];
+const ownerArray = [
+  images.user1,
+  images.user8,
+  images.user2,
+  images.user6,
+  images.user5,
+];
+const historyArray = [
+  images.user1,
+  images.user2,
+  images.user3,
+  images.user4,
+  images.user5,
+];
+const formatTime = (num: number) => {
+  return num < 10 ? `0${num}` : num;
+};
 const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
   const [social, setSocial] = useState(false);
   const [NFTMenu, setNFTMenu] = useState(false);
@@ -106,36 +131,19 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
 
   const router = useRouter();
   const { buyNFT, currentAccount } = useContext(NFTMarketplaceContext)!;
-  const historyArray = [
-    images.user1,
-    images.user2,
-    images.user3,
-    images.user4,
-    images.user5,
-  ];
-  const provenanceArray = [
-    images.user6,
-    images.user7,
-    images.user8,
-    images.user9,
-    images.user10,
-  ];
-  const ownerArray = [
-    images.user1,
-    images.user8,
-    images.user2,
-    images.user6,
-    images.user5,
-  ];
-  const a = [{ link: <BiTransferAlt></BiTransferAlt> }];
-  const toggleSocial = () => setSocial(!social);
-  const toggleNFTMenu = () => setNFTMenu(!NFTMenu);
+
+  const { seconds, minutes, hours, days } = useTimer({
+    expiryTimestamp: new Date(
+      new Date().getTime() +
+        3 * (24 * 60 * 60 * 1000) +
+        (3 * 60 * 60 + 15 * 60 + 20)
+    ),
+  });
   const switchTab = (tab: "history" | "provenance" | "owner") => {
     setHistory(tab === "history");
     setProvenance(tab === "provenance");
     setOwner(tab === "owner");
   };
-
   return (
     <div className={cn("w-full")}>
       <div className={cn("w-full m-auto")}>
@@ -148,15 +156,11 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
             Virtual Worlds
           </p>
           <div className="flex items-center gap-4">
-            <DropDown
-              items={cloudItems}
-            >
+            <DropDown items={cloudItems}>
               <MdCloudUpload className={cn("cursor-pointer")} />
             </DropDown>
 
-            <DropDown
-              items={helpsItems}
-            >
+            <DropDown items={helpsItems}>
               <BsThreeDots className={cn("cursor-pointer")} />
             </DropDown>
           </div>
@@ -182,7 +186,7 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
               <div>
                 <small className={cn("font-medium")}>Creator</small> <br />
                 <Link href={{ pathname: "/author" }}>
-                  <span className={cn("font-bold")}>
+                  <span className={cn("font-bold flex items-center")}>
                     Karli Costa <MdVerified />
                   </span>
                 </Link>
@@ -203,7 +207,7 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
               />
               <div>
                 <small className={cn("font-medium")}>Collection</small> <br />
-                <span className={cn("font-bold")}>
+                <span className={cn("font-bold flex items-center")}>
                   Mokeny app <MdVerified />
                 </span>
               </div>
@@ -217,25 +221,25 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
             <div className={cn("flex gap-[3rem] items-center mt-12")}>
               <div className={cn("flex flex-col items-center")}>
                 <p className={cn("text-[3rem] leading-[0] font-extrabold")}>
-                  2
+                  {days}
                 </p>
                 <span className={cn("font-semibold mt-8")}>Days</span>
               </div>
               <div className={cn("flex flex-col items-center")}>
                 <p className={cn("text-[3rem] leading-[0] font-extrabold")}>
-                  22
+                  {formatTime(hours)}
                 </p>
                 <span className={cn("font-semibold mt-8")}>hours</span>
               </div>
               <div className={cn("flex flex-col items-center")}>
                 <p className={cn("text-[3rem] leading-[0] font-extrabold")}>
-                  45
+                  {formatTime(minutes)}
                 </p>
                 <span className={cn("font-semibold mt-8")}>mins</span>
               </div>
               <div className={cn("flex flex-col items-center")}>
                 <p className={cn("text-[3rem] leading-[0] font-extrabold")}>
-                  12
+                  {formatTime(seconds)}
                 </p>
                 <span className={cn("font-semibold mt-8")}>secs</span>
               </div>
@@ -243,10 +247,14 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
 
             <div
               className={cn(
-                "grid grid-cols-[4fr_1fr] gap-[3rem] items-end justify-between mt-[4rem]"
+                "grid xl:grid-cols-[4fr_1fr] sm:grid-cols-[4fr_1fr] lg:grid-cols-1 gap-[3rem] items-end justify-between mt-[4rem]"
               )}
             >
-              <div className={cn("border-[2px] leading-[1.5] border-icons rounded-[0.5rem]")}>
+              <div
+                className={cn(
+                  "border-[2px] leading-[1.5] border-icons rounded-[0.5rem]"
+                )}
+              >
                 <small
                   className={cn(
                     "text-[1.2rem] bg-icons text-main-bg px-[1rem] py-[0.5rem] rounded-[0.5rem] ml-[2rem]"
@@ -258,7 +266,7 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
                   {nft.price} ETH <span>( ≈ $3,221.22)</span>
                 </p>
               </div>
-              <span>[96 in stock]</span>
+              <span className=" whitespace-nowrap">[96 in stock]</span>
             </div>
 
             <div className={cn("mt-[3rem] flex items-center gap-[3rem]")}>
@@ -273,19 +281,19 @@ const NFTDescription = ({ nft }: { nft: TMarketItem }) => {
                   }
                   className={cn("button")}
                 >
-                  <FaWallet />&nbsp;
-                  List on Marketplace
+                  <FaWallet />
+                  &nbsp; List on Marketplace
                 </Button>
               ) : (
                 <Button onClick={() => buyNFT(nft)} className={cn("button")}>
-                  <FaWallet />&nbsp;
-                  Buy NFT
+                  <FaWallet />
+                  &nbsp; Buy NFT
                 </Button>
               )}
 
               <Button onClick={() => {}} className={cn("button")}>
-                <FaPercentage />&nbsp;
-                Make offer
+                <FaPercentage />
+                &nbsp; Make offer
               </Button>
             </div>
 

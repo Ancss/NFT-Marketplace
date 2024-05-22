@@ -18,8 +18,9 @@ const ReSellToken = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    setPrice(searchParams.get('price')!)
     setId(searchParams.get('id')!)
-    setId(searchParams.get('tokenURI')!)
+    setTokenURI(searchParams.get('tokenURI')!)
   }, [searchParams])
   const fetchNFT = async () => {
     if (!tokenURI) return;
@@ -48,9 +49,10 @@ const ReSellToken = () => {
           <label htmlFor="price" className={cn("block text-lg")}>Price</label>
           <Input
             type="number"
-            min={1}
+            min={0.1}
             placeholder="ReSell price"
             className={cn("w-full p-2 mt-2 bg-transparent border border-primary")}
+            value={price}
             onChange={(e) => setPrice(e.target.value)}
             id="price"
           />
@@ -58,7 +60,7 @@ const ReSellToken = () => {
 
         <div className={cn("my-16")}>
           {image && (
-            <Image src={image} alt="Resell NFT" width={400} height={400} />
+            <Image src={image} alt="Resell NFT" width={400} height={400} className="w-full" />
           )}
         </div>
 

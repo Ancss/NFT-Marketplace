@@ -30,7 +30,7 @@ const AuthorProfileCard = ({ currentAccount }: { currentAccount: string }) => {
   };
 
   return (
-    <div className={cn('relative z-50 mt-20 ')}>
+    <div className={cn('relative z-9 mt-20 ')}>
       <div className={cn('mx-auto w-4/5tt grid grid-cols-1 justify-self-center items-center bg-main-bg p-2 rounded-lg shadow-custom gap-12', 'lg:w-11/12tt lg:grid-cols-[1fr_4fr_1.3fr] lg:p-10 lg:gap-4', 'md:grid-cols-[1fr_2fr] md:gap-4')}>
         <div className={cn('rounded-lg text-center mx-auto ')}>
           <Image src={images.nft_image_1} alt="NFT IMAGES" width={220} height={220} className={cn('rounded-lg ')} />
@@ -40,7 +40,7 @@ const AuthorProfileCard = ({ currentAccount }: { currentAccount: string }) => {
             Dony Herrera <MdVerified />
           </h2>
           <div className={cn('mt-[1rem] flex items-center')}>
-            <input type="text" value={currentAccount} id="myInput" className={cn('outline-none w-1/3 text-ellipsis whitespace-nowrap overflow-hidden text-lg border-none bg-transparent')} />
+            <input type="text" value={currentAccount} onChange={()=>{}} id="myInput" className={cn('outline-none w-1/3 text-ellipsis whitespace-nowrap overflow-hidden text-lg border-none bg-transparent')} />
             <FiCopy onClick={copyAddress} className={cn(' ml-2 transition-all duration-300 ease-in', 'hover:shadow-custom hover:cursor-pointer hover:text-icons')} />
           </div>
           <p className={cn('text-md leading-none w-[90%]  ')}>

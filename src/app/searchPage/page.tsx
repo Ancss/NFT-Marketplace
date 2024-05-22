@@ -36,7 +36,6 @@ const SearchPage = () => {
     const filteredNFTS = nfts.filter(({ name }) =>
       name.toLowerCase().includes(value.toLowerCase())
     );
-
     if (filteredNFTS.length === 0) {
       setNfts(nftsCopy);
     } else {

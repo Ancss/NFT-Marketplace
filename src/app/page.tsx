@@ -50,6 +50,12 @@ const Home = () => {
       <Service />
       <BigNFTSilder />
       <Title
+        heading="Featured NFTs"
+        paragraph="Discover the most outstanding NFTs in all topics of life."
+      />
+      <Filter />
+      {nfts.length == 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
+      <Title
         heading="Audio Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
@@ -62,12 +68,7 @@ const Home = () => {
 
       <Slider />
       <Collection />
-      <Title
-        heading="Featured NFTs"
-        paragraph="Discover the most outstanding NFTs in all topics of life."
-      />
-      <Filter />
-      {nfts.length == 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
+     
 
       <Title
         heading="Browse by category"

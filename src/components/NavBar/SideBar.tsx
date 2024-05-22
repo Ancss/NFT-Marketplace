@@ -92,7 +92,7 @@ const SideBar: React.FC<SideBarProps> = ({ setOpenSideMenu, currentAccount, conn
   ];
 
   return (
-    <div className={cn("absolute top-0 left-0 w-full h-full bg-main-bg z-50")}>
+    <div className={cn("absolute top-0 left-0 w-full h-full bg-main-bg z-9")}>
       <GrClose
         className={cn("absolute top-12 right-12 cursor-pointer transition duration-200 ease-in-out text-icons hover:rotate-45")}
         onClick={() => setOpenSideMenu(false)}

@@ -38,6 +38,7 @@ const profileItems = [
   },
 ]
 const Profile: React.FC<ProfileProps> = ({ currentAccount }) => {
+  console.log(currentAccount)
   return (
     <DropDown label={
       <div className={cn("flex items-center mb-4")}

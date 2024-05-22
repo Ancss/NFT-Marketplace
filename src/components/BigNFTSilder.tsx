@@ -135,7 +135,7 @@ const BigNFTSilder = () => {
               <Button onClick={() => { }} >View</Button>
             </div>
           </div>
-          <div className="flex justify-center gap-8 mt-8">
+          <div className="flex justify-center gap-8 mt-8 select-none">
             <TbArrowBigLeftLines className="cursor-pointer text-3xl" onClick={dec} />
             <TbArrowBigRightLine className="cursor-pointer text-3xl" onClick={inc} />
           </div>

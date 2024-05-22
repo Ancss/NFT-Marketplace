@@ -9,7 +9,7 @@ module.exports = {
       chainId:80002
     },
     polygonAmoy: {
-      url: `https://polygon-amoy.blockpi.network/v1/rpc/public`,
+      url: `https://polygon-amoy.g.alchemy.com/v2/vkTR7T80RK9fA-7o_XBHtsC5vCZJCjMm`,
       accounts: [process.env.ACCOUNT_PRIVATE_KEY],
     },
   },

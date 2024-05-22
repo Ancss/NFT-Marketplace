@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Web3Modal from "web3modal";
@@ -6,22 +6,18 @@ import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 //INTERNAL  IMPORT
-import {
-  NFTMarketplaceAddress,
-  NFTMarketplaceABI,
-} from "./constants";
+import { NFTMarketplaceAddress, NFTMarketplaceABI } from "./constants";
 import { TMarketItem } from "@/type";
 
-
 export type CreateNFTParams = {
-  name: string,
-  price: string,
-  image: string,
-  description: string,
-  router: any,
+  name: string;
+  price: string;
+  image: string;
+  description: string;
+  router: any;
 };
 
-export type CreateNFT = (params: CreateNFTParams) => Promise<void>
+export type CreateNFT = (params: CreateNFTParams) => Promise<void>;
 
 // defined the type of value in the Context
 export type TNFTMarketplaceContextType = {
@@ -32,7 +28,12 @@ export type TNFTMarketplaceContextType = {
   fetchNFTs: () => Promise<TMarketItem[]>;
   fetchMyNFTsOrListedNFTs: (type?: string) => Promise<TMarketItem[]>;
   buyNFT: (nftId: TMarketItem) => void;
-  createSale: (url: string, formInputPrice: CreateNFTParams['price'], isReselling?: boolean, id?: string) => void;
+  createSale: (
+    url: string,
+    formInputPrice: CreateNFTParams["price"],
+    isReselling?: boolean,
+    id?: string
+  ) => void;
   currentAccount: string | null;
   titleData: string;
   setOpenError: (open: boolean) => void;
@@ -43,7 +44,9 @@ export type TNFTMarketplaceContextType = {
 };
 
 //---FETCHING SMART CONTRACT
-const fetchContract = (signerOrProvider: ethers.Signer | ethers.providers.Provider) =>
+const fetchContract = (
+  signerOrProvider: ethers.Signer | ethers.providers.Provider
+) =>
   new ethers.Contract(
     NFTMarketplaceAddress,
     NFTMarketplaceABI,
@@ -65,9 +68,14 @@ const connectingWithSmartContract = async () => {
   }
 };
 
-export const NFTMarketplaceContext = React.createContext<TNFTMarketplaceContextType | null>(null);
+export const NFTMarketplaceContext =
+  React.createContext<TNFTMarketplaceContextType | null>(null);
 
-export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode }) => {
+export const NFTMarketplaceProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const titleData = "Discover, collect, and sell NFTs";
 
   //------USESTAT
@@ -78,7 +86,6 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
   const router = useRouter();
 
   //---CHECK IF WALLET IS CONNECTD
-
   const checkIfWalletConnected = async () => {
     try {
       if (!window.ethereum)
@@ -116,7 +123,6 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
 
   //---CONNET WALLET FUNCTION
   const connectWallet = async () => {
-
     try {
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
@@ -148,9 +154,9 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `afe8c9dd5234809ff0ca`,
-            pinata_secret_api_key: `
-            87e274f04806377fe0605fcdcd979554edbcaa087ff8fe40b463fe85f2059c96`,
+            pinata_api_key: process.env.NEXT_PUBLIC_PINATA_API_KEY,
+            pinata_secret_api_key:
+              process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY,
             "Content-Type": "multipart/form-data",
           },
         });
@@ -164,7 +170,13 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
   };
 
   //---CREATENFT FUNCTION
-  const createNFT: CreateNFT = async ({ name, price, image, description, router }) => {
+  const createNFT: CreateNFT = async ({
+    name,
+    price,
+    image,
+    description,
+    router,
+  }) => {
     if (!name || !description || !price || !image)
       return setError("Data Is Missing"), setOpenError(true);
 
@@ -176,9 +188,8 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
         url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
         data: data,
         headers: {
-          pinata_api_key: `afe8c9dd5234809ff0ca`,
-          pinata_secret_api_key: `
-          87e274f04806377fe0605fcdcd979554edbcaa087ff8fe40b463fe85f2059c96`,
+          pinata_api_key: process.env.NEXT_PUBLIC_PINATA_API_KEY,
+          pinata_secret_api_key: process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY,
           "Content-Type": "application/json",
         },
       });
@@ -195,23 +206,28 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
   };
 
   //--- createSale FUNCTION
-  const createSale: TNFTMarketplaceContextType['createSale'] = async (url, formInputPrice, isReselling?, id?) => {
+  const createSale: TNFTMarketplaceContextType["createSale"] = async (
+    url,
+    formInputPrice,
+    isReselling?,
+    id?
+  ) => {
     try {
       console.log(url, formInputPrice, isReselling, id);
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
 
       const contract = await connectingWithSmartContract();
-      if (!contract) return
+      if (!contract) return;
       const listingPrice = await contract.getListingPrice();
-
+      console.log(listingPrice,accountBalance)
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
-          value: listingPrice.toString(),
-        })
+            value: listingPrice.toString(),
+          })
         : await contract.resellToken(id, price, {
-          value: listingPrice.toString(),
-        });
-
+            value: listingPrice.toString(),
+          });
+      console.log(transaction)
       await transaction.wait();
       console.log(transaction);
     } catch (error) {
@@ -223,7 +239,7 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
 
   //--FETCHNFTS FUNCTION
 
-  const fetchNFTs: TNFTMarketplaceContextType['fetchNFTs'] = async () => {
+  const fetchNFTs: TNFTMarketplaceContextType["fetchNFTs"] = async () => {
     try {
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
@@ -236,7 +252,12 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
 
       const items = await Promise.all(
         data.map(
-          async ({ tokenId, seller, owner, price: unformattedPrice }: TMarketItem) => {
+          async ({
+            tokenId,
+            seller,
+            owner,
+            price: unformattedPrice,
+          }: TMarketItem) => {
             const tokenURI = await contract.tokenURI(tokenId);
 
             const {
@@ -267,7 +288,7 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
       // setError("Error while fetching NFTS");
       // setOpenError(true);
       console.log(error);
-      return []
+      return [];
     }
   };
 
@@ -276,61 +297,68 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
   }, []);
 
   //--FETCHING MY NFT OR LISTED NFTs
-  const fetchMyNFTsOrListedNFTs: TNFTMarketplaceContextType['fetchMyNFTsOrListedNFTs'] = async (type?: string) => {
-    try {
-      if (currentAccount) {
-        const contract = await connectingWithSmartContract();
-        if (!contract) return []
-        const data =
-          type == "fetchItemsListed"
-            ? await contract.fetchItemsListed()
-            : await contract.fetchMyNFTs();
-
-        const items = await Promise.all(
-          data.map(
-            async ({ tokenId, seller, owner, price: unformattedPrice }: TMarketItem) => {
-              const tokenURI = await contract.tokenURI(tokenId);
-              const {
-                data: { image, name, description },
-              } = await axios.get(tokenURI);
-              const price = ethers.utils.formatUnits(
-                unformattedPrice.toString(),
-                "ether"
-              );
-
-              return {
-                price,
-                tokenId: tokenId?.toString(),
+  const fetchMyNFTsOrListedNFTs: TNFTMarketplaceContextType["fetchMyNFTsOrListedNFTs"] =
+    async (type?: string) => {
+      try {
+        if (currentAccount) {
+          const contract = await connectingWithSmartContract();
+          if (!contract) return [];
+          const data =
+            type == "fetchItemsListed"
+              ? await contract.fetchItemsListed()
+              : await contract.fetchMyNFTs();
+          const items = await Promise.all(
+            data.map(
+              async ({
+                tokenId,
                 seller,
                 owner,
-                image,
-                name,
-                description,
-                tokenURI,
-              };
-            }
-          )
-        );
-        return items;
+                price: unformattedPrice,
+              }: TMarketItem) => {
+                const tokenURI = await contract.tokenURI(tokenId);
+                const {
+                  data: { image, name, description },
+                } = await axios.get(tokenURI);
+                const price = ethers.utils.formatUnits(
+                  unformattedPrice.toString(),
+                  "ether"
+                );
+
+                return {
+                  price,
+                  tokenId: tokenId?.toString(),
+                  seller,
+                  owner,
+                  image,
+                  name,
+                  description,
+                  tokenURI,
+                };
+              }
+            )
+          );
+          return items;
+        }
+        return [];
+      } catch (error) {
+        // setError("Error while fetching listed NFTs");
+        // setOpenError(true);
+        return [];
       }
-      return []
-    } catch (error) {
-      // setError("Error while fetching listed NFTs");
-      // setOpenError(true);
-      return []
-    }
-  };
+    };
 
   useEffect(() => {
     fetchMyNFTsOrListedNFTs();
   }, []);
 
   //---BUY NFTs FUNCTION
-  const buyNFT: TNFTMarketplaceContextType['buyNFT'] = async (nft) => {
+  const buyNFT: TNFTMarketplaceContextType["buyNFT"] = async (nft) => {
     try {
       const contract = await connectingWithSmartContract();
-      if (!contract) return
+      console.log(contract);
+      if (!contract) return;
       const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+      console.log(price, nft);
 
       const transaction = await contract.createMarketSale(nft.tokenId, {
         value: price,
@@ -344,6 +372,12 @@ export const NFTMarketplaceProvider = ({ children }: { children: React.ReactNode
     }
   };
 
+  // monitoring when user account change
+  useEffect(() => {
+    window.ethereum.on("accountsChanged", (accounts:string[]) => {
+      setCurrentAccount(accounts[0]);
+    });
+  }, []);
   return (
     <NFTMarketplaceContext.Provider
       value={{

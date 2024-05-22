@@ -5,7 +5,7 @@ import images from "@/img"; // Assuming images is a valid import path
 
 const Notification: React.FC = () => {
   return (
-    <div className={cn(" p-2 bg-main-bg shadow-shadow-dark rounded-lg z-50")}>
+    <div className={cn(" p-2 bg-main-bg shadow-shadow-dark rounded-lg z-9")}>
       <p className={cn("text-[1.3rem] font-semibold mb-8")}>Notification</p>
       <div className={cn("flex items-start gap-4 p-4 transition-all duration-300 hover:bg-icons group hover:text-shadow-dark rounded-sm")}>
         <div className={cn("rounded-full")}>

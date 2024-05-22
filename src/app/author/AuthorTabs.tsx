@@ -65,7 +65,7 @@ const AuthorTaps = ({
             </button>
           ))}
         </div>
-        <div className={cn('relative lg:mt-0 mt-8 z-[999]')}>
+        <div className={cn('relative lg:mt-0 mt-8 z-[9]')}>
           <DropdownMenu onOpenChange={openDropDownList}>
             <DropdownMenuTrigger className="flex border border-icons px-4 py-2 rounded-3xl items-center " >
               <p className={cn('text-xl leading-none whitespace-nowrap mr-2')} onClick={openDropDownList}>{selectedMenu}</p>
@@ -77,7 +77,7 @@ const AuthorTaps = ({
               </DropdownMenuLabel> */}
               <DropdownMenuSeparator />
               {listArray.map((el, i) => (
-                <DropdownMenuItem key={i} className={cn('bg-main-bg  w-64 left-[-0.75rem]  shadow-custom z-50')}>
+                <DropdownMenuItem key={i} className={cn('bg-main-bg  w-64 left-[-0.75rem]  shadow-custom z-9')}>
                   <div
                     key={i}
                     onClick={() => { setSelectedMenu(el); setOpenList(false); }}

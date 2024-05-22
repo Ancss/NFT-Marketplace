@@ -53,7 +53,7 @@ const CategoryArray = [
 const Category: React.FC = () => {
   return (
     <div className="w-4/5tt mx-auto md:w-11/12tt">
-      <div className="py-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="py-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {CategoryArray.map((el, i) => (
           <div className="relative overflow-hidden rounded-lg cursor-pointer p-4 transition-all duration-300 hover:shadow-custom" key={i}>
             <Image
