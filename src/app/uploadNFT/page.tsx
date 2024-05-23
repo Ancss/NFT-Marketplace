@@ -9,7 +9,7 @@ const UploadNFTComponent = () => {
 
   return (
     <div className={cn("w-full my-32")}>
-      <div className={cn("lg:w-3/5 w-full mx-auto")}>
+      <div className={cn("xl:w-3/5 lg:w-4/5 w-full mx-auto")}>
         <div className={cn("border-b border-shadow-dark")}>
           <h1 className={cn("text-4xl leading-none")}>Create New NFT</h1>
           <p className={cn("text-lg leading-snug w-7/10 py-4")}>
