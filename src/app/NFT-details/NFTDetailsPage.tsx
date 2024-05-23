@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils"; // cn function for dynamic class names
 
 // INTERNAL IMPORT
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 import NFTDetailsImg from "./NFTDetailsImg";
 import NFTDescription from "./NFTDescription";
 

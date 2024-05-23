@@ -16,7 +16,7 @@ import Title from "@/components/Title";
 import Video from "@/components/Video";
 import AudioLive from "@/components/AudioLive/AudioLive";
 import { getTopCreators } from "@/lib/getTopCreators";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 import React, { useState, useEffect, useContext } from "react";
 import Filter from "@/components/Filter";
 

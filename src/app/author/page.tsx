@@ -12,7 +12,7 @@ import Title from "@/components/Title";
 import AuthorNFTCardBox from "./AuthorNFTCardBox";
 import AuthorProfileCard from "./AuthorProfileCard";
 import AuthorTaps from "./AuthorTabs";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 
 const Author = () => {
   const followerArray = [

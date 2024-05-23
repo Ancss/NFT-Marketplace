@@ -8,7 +8,7 @@ import CollectionProfile from "@/components/CollectionProfile";
 import NFTCardTwo from "@/components/NFTCardTwo";
 import Slider from "@/components/Slider";
 import Filter from "@/components/Filter";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 
 
 const collection = () => {

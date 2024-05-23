@@ -6,7 +6,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { MdVerified, MdTimer } from 'react-icons/md';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { TMarketItem } from '@/type';
+import { TMarketItem } from '@/types';
 import LikeProfile from './LikeProfile';
 
 const NFTCardTwo = ({ NFTs }: { NFTs: TMarketItem[] }) => {

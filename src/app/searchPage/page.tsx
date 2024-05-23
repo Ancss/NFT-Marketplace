@@ -8,7 +8,7 @@ import NFTCardTwo from "@/components/NFTCardTwo";
 import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import images from "@/img";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 import React, { useEffect, useState, useContext } from "react";
 
 const SearchPage = () => {

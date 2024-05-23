@@ -5,7 +5,7 @@ import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 import Brand from "@/components/Brand";
 import Category from "@/components/Category";
 import NFTDetailsPage from "./NFTDetailsPage";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 
 
 const NFTDetails = () => {

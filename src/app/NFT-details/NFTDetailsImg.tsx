@@ -4,7 +4,7 @@ import { BsImages } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import React, { useState } from "react";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 import { useSearchParams } from "next/navigation";
 
 const NFTDetailsImg = ({ nft }: { nft: TMarketItem }) => {

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import images from '@/img';
 import FollowerTabCard from '@/components/FollowerTabCard';
 import NFTCardTwo from '@/components/NFTCardTwo';
-import { TMarketItem } from '@/type';
+import { TMarketItem } from '@/types';
 
 const AuthorNFTCardBox = ({
   collectiables,

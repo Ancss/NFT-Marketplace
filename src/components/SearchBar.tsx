@@ -31,7 +31,7 @@ const SearchBar = ({ onHandleSearch, onClearSearch }: { onHandleSearch: (v: stri
           placeholder="Type your keyword..."
           onChange={(e) => setSearchItem(e.target.value)}
           value={searchItem}
-          className={cn(' flex-1 text-primary border-none outline-none p-8 bg-main-bg placeholder-primary text-2xl')}
+          className={cn(' flex-1 text-primary border-none outline-none p-8 bg-main-bg placeholder-primary text-lg sm:text-2xl')}
         />
         <BsArrowRight className={cn('text-6xl p-2 pr-6 cursor-pointer text-primary')} />
       </div>

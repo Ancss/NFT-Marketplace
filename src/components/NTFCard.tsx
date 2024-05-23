@@ -4,7 +4,7 @@ import { BsImages } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 import { useTimer } from "react-timer-hook";
 
 const NFTCard = ({ NFTData }: { NFTData: TMarketItem[] }) => {

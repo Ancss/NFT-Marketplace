@@ -24,7 +24,7 @@ import {
 import { BiTransferAlt, BiDollar } from "react-icons/bi";
 import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 import images from "@/img";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 import NFTTabs from "./NFTTabs";
 import { Button } from "@/components/ui/button";
 import DropDown from "@/components/DropDown";
