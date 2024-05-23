@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id          String  @unique
+  username    String?
+  email       String?
+  description String?
+  website     String?
+  facebook    String?
+  twitter     String?
+  instagram   String?
+  avatar      String?
+  likes       Like[]
+  nfts        NFT[]
+}
+
+model NFT {
+  tokenId   String   @unique
+  seller    String
+  owner     String
+  price     Int
+  sold      Boolean
+  tokenURI  String
+  likes     Like[] // Array of likes
+  Account   Account? @relation(fields: [accountId], references: [id])
+  accountId String?
+}
+
+model Like {
+  id        Int     @id @default(autoincrement())
+  Account   Account @relation(fields: [accountId], references: [id])
+  accountId String // Reference to the User who liked/disliked
+  liked     Int     @default(-1) // 1 if liked, 0 if disliked, -1 if not touch
+  NFT       NFT?    @relation(fields: [nftId], references: [tokenId])
+  nftId     String?
+}
