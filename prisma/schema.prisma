@@ -31,7 +31,7 @@ model NFT {
   tokenId   String   @unique
   seller    String
   owner     String
-  price     Int
+  price     String
   sold      Boolean
   tokenURI  String
   likes     Like[] // Array of likes

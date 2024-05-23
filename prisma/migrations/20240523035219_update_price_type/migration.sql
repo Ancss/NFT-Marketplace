@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "NFT" ALTER COLUMN "price" SET DATA TYPE TEXT;
