@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+'use client'
 import {
   RiUserFollowFill,
   RiUserUnfollowFill,
@@ -8,13 +8,20 @@ import { cn } from "@/lib/utils";
 import FollowerTabCard from "@/components/FollowerTabCard";
 import images from "@/img";
 import { Button } from "./ui/button";
+import React, { useState, useEffect, useContext, Suspense } from "react";
+import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
+import { getTopCreators } from "@/lib/getTopCreators";
 
 interface FollowerTabProps {
   TopCreator: Array<any>;
 }
 
-const FollowerTab: React.FC<FollowerTabProps> = ({ TopCreator }) => {
+const FollowerTab = () => {
   const [tab, setTab] = useState("popular");
+  const { checkIfWalletConnected, currentAccount, nfts } = useContext(
+    NFTMarketplaceContext
+  )!;
+  const TopCreator = getTopCreators(nfts);
   const FollowingArray = [
     {
       background: images.creatorbackground3,
