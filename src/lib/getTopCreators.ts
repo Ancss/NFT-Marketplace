@@ -1,4 +1,4 @@
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
 
 export const getTopCreators = (creators: TMarketItem[]) => {
   const finalCreators: {
