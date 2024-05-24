@@ -1,6 +1,3 @@
-"use client"
-
-import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 import BigNFTSilder from "@/components/BigNFTSilder";
 import Brand from "@/components/Brand";
 import Category from "@/components/Category";
@@ -15,34 +12,11 @@ import Subscribe from "@/components/Subscribe";
 import Title from "@/components/Title";
 import Video from "@/components/Video";
 import AudioLive from "@/components/AudioLive/AudioLive";
-import { getTopCreators } from "@/lib/getTopCreators";
 import { TMarketItem } from "@/types";
-import React, { useState, useEffect, useContext } from "react";
 import Filter from "@/components/Filter";
+import { Suspense } from "react";
 
 const Home = () => {
-  const { checkIfWalletConnected, currentAccount, fetchNFTs } = useContext(
-    NFTMarketplaceContext
-  )!;
-  useEffect(() => {
-    checkIfWalletConnected();
-  }, []);
-
-  const [nfts, setNfts] = useState<TMarketItem[]>([]);
-
-  useEffect(() => {
-    // if (currentAccount) {
-    fetchNFTs().then((items: TMarketItem[]) => {
-      console.log(nfts);
-      setNfts(items?.reverse());
-    });
-    // }
-  }, []);
-
-  //CREATOR LIST
-
-  const creators = getTopCreators(nfts);
-  // console.log(creators);
 
   return (
     <div >
@@ -54,21 +28,22 @@ const Home = () => {
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
       <Filter />
-      {nfts.length == 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
+      <Suspense fallback={<Loader />}>
+        <NFTCard />
+      </Suspense>
       <Title
         heading="Audio Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
       <AudioLive />
-       {creators.length == 0 ? (
-        <Loader />
-      ) : (
-        <FollowerTab TopCreator={creators} />
-      )}
+      <Suspense fallback={<Loader />}>
+        <FollowerTab />
+      </Suspense>
+
 
       <Slider />
       <Collection />
-     
+
 
       <Title
         heading="Browse by category"

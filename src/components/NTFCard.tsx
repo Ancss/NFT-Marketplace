@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+'use client'
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsImages } from "react-icons/bs";
 import Image from "next/image";
@@ -6,9 +6,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { TMarketItem } from "@/types";
 import { useTimer } from "react-timer-hook";
+import React, { useState, useEffect, useContext, Suspense } from "react";
+import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 
-const NFTCard = ({ NFTData }: { NFTData: TMarketItem[] }) => {
+const NFTCard = () => {
   const [like, setLike] = useState(true);
+  const { checkIfWalletConnected, currentAccount, nfts } = useContext(
+    NFTMarketplaceContext
+  )!;
   [];
   const likeNft = () => {
     setLike(!like);
@@ -28,7 +33,7 @@ const NFTCard = ({ NFTData }: { NFTData: TMarketItem[] }) => {
         "mx-auto grid gap-12 mb-40 sm:grid-cols-1 md:grid-cols-2 md:gap-6 xl:grid-cols-3"
       )}
     >
-      {NFTData.map((el, i) => (
+      {nfts.map((el, i) => (
         <Link href={{ pathname: "/NFT-details", query: el }} key={i}>
           <div
             className={cn(

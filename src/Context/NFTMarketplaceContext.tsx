@@ -49,6 +49,7 @@ export type TNFTMarketplaceContextType = {
   setError: Dispatch<SetStateAction<string>>;
   error: string | null;
   accountBalance: string;
+  nfts: TMarketItem[]
 };
 
 //---FETCHING SMART CONTRACT
@@ -128,6 +129,7 @@ export const NFTMarketplaceProvider = ({
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
+  const [nfts, setNfts] = useState<TMarketItem[]>([]);
 
   //---CHECK IF WALLET IS CONNECTD
   const checkIfWalletConnected = async () => {
@@ -263,15 +265,15 @@ export const NFTMarketplaceProvider = ({
       const contract = await connectingWithSmartContract();
       if (!contract) return;
       const listingPrice = await contract.getListingPrice();
-      console.log(listingPrice, accountBalance);
+      console.log(listingPrice, accountBalance)
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
-            value: listingPrice.toString(),
-          })
+          value: listingPrice.toString(),
+        })
         : await contract.resellToken(id, price, {
-            value: listingPrice.toString(),
-          });
-      console.log(transaction);
+          value: listingPrice.toString(),
+        });
+      console.log(transaction)
       await transaction.wait();
       setLoading(false);
       console.log(transaction);
@@ -338,7 +340,9 @@ export const NFTMarketplaceProvider = ({
   };
 
   useEffect(() => {
-    fetchNFTs();
+    fetchNFTs().then((items: TMarketItem[]) => {
+      setNfts(items?.reverse());
+    });
   }, []);
 
   //--FETCHING MY NFT OR LISTED NFTs
@@ -453,6 +457,7 @@ export const NFTMarketplaceProvider = ({
         openError,
         error,
         accountBalance,
+        nfts
       }}
     >
       {children}
