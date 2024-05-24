@@ -1,13 +1,21 @@
 "use client";
 
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import React, {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 //INTERNAL  IMPORT
 import { NFTMarketplaceAddress, NFTMarketplaceABI } from "./constants";
-import { TMarketItem } from "@/type";
+import { TMarketItem } from "@/types";
+import { createNewNFT } from "@/actions/NFT";
+import { LoadingContext } from "./LoadingSpinnerProvider";
 
 export type CreateNFTParams = {
   name: string;
@@ -67,6 +75,41 @@ const connectingWithSmartContract = async () => {
     console.log("Something went wrong while connecting with contract", error);
   }
 };
+// listen NFT created
+const onMarketItemCreatedEvent = async (
+  tokenId: string,
+  seller: string,
+  owner: string,
+  price: string,
+  sold: boolean
+) => {
+  try {
+    const contract = await connectingWithSmartContract();
+    if (contract) {
+      console.log("tokenId", tokenId);
+      const tokenURI = await contract.tokenURI(tokenId);
+      console.log("tokenURI", tokenURI);
+      console.log({
+        tokenId: tokenId.toString(),
+        seller,
+        owner,
+        price: ethers.utils.formatUnits(price.toString(), "ether"),
+        sold,
+        tokenURI,
+      });
+      createNewNFT({
+        tokenId: tokenId.toString(),
+        seller,
+        owner,
+        price: ethers.utils.formatUnits(price.toString(), "ether"),
+        sold,
+        tokenURI,
+      });
+    }
+  } catch (error) {
+    console.log("createNFT in database has a problem ", error);
+  }
+};
 
 export const NFTMarketplaceContext =
   React.createContext<TNFTMarketplaceContextType | null>(null);
@@ -84,6 +127,7 @@ export const NFTMarketplaceProvider = ({
   const [currentAccount, setCurrentAccount] = useState("");
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
+  const { setLoading } = useContext(LoadingContext);
 
   //---CHECK IF WALLET IS CONNECTD
   const checkIfWalletConnected = async () => {
@@ -179,9 +223,8 @@ export const NFTMarketplaceProvider = ({
   }) => {
     if (!name || !description || !price || !image)
       return setError("Data Is Missing"), setOpenError(true);
-
+    setLoading(true);
     const data = JSON.stringify({ name, description, image });
-
     try {
       const response = await axios({
         method: "POST",
@@ -200,6 +243,7 @@ export const NFTMarketplaceProvider = ({
       await createSale(url, price);
       router.push("/searchPage");
     } catch (error) {
+      setLoading(false);
       setError("Error while creating NFT");
       setOpenError(true);
     }
@@ -219,7 +263,7 @@ export const NFTMarketplaceProvider = ({
       const contract = await connectingWithSmartContract();
       if (!contract) return;
       const listingPrice = await contract.getListingPrice();
-      console.log(listingPrice,accountBalance)
+      console.log(listingPrice, accountBalance);
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
             value: listingPrice.toString(),
@@ -227,8 +271,9 @@ export const NFTMarketplaceProvider = ({
         : await contract.resellToken(id, price, {
             value: listingPrice.toString(),
           });
-      console.log(transaction)
+      console.log(transaction);
       await transaction.wait();
+      setLoading(false);
       console.log(transaction);
     } catch (error) {
       setError("error while creating sale");
@@ -374,10 +419,22 @@ export const NFTMarketplaceProvider = ({
 
   // monitoring when user account change
   useEffect(() => {
-    window.ethereum.on("accountsChanged", (accounts:string[]) => {
+    window.ethereum.on("accountsChanged", (accounts: string[]) => {
       setCurrentAccount(accounts[0]);
     });
   }, []);
+  // catch up when new Token Created
+  useEffect(() => {
+    let contract: ethers.Contract | undefined;
+    async function onNewTokenCreated() {
+      contract = await connectingWithSmartContract();
+      contract && contract.on("MarketItemCreated", onMarketItemCreatedEvent);
+    }
+    onNewTokenCreated();
+    return () => {
+      contract?.off("MarketItemCreated", onMarketItemCreatedEvent);
+    };
+  }, [currentAccount]);
   return (
     <NFTMarketplaceContext.Provider
       value={{
