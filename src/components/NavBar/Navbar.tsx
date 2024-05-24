@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { DiAws } from "react-icons/di";
 import { MdNotifications } from "react-icons/md";
@@ -25,8 +25,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { create2, createNewNFT,  } from "@/actions/NFT";
-import { AccountContext,  } from "@/Context/AccountProvider";
+import { create2, createNewNFT } from "@/actions/NFT";
+import { AccountContext } from "@/Context/AccountProvider";
 
 const discoverItems = [
   {
@@ -66,20 +66,17 @@ const helpItems = [
   { name: "Subscription", link: "subscription" },
 ];
 const NavBar = () => {
-  const [discover, setDiscover] = useState(false);
-  const [help, setHelp] = useState(false);
-  const [notification, setNotification] = useState(false);
-  const [profile, setProfile] = useState(false);
   const [openSideMenu, setOpenSideMenu] = useState(false);
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const { currentAccount, connectWallet, openError } = useContext(
     NFTMarketplaceContext
   )!;
-  const {account} = useContext(AccountContext)!
+  const { account } = useContext(AccountContext)!;
   const gotoSearchPage = useCallback(() => {
-    router.push(`/searchPage?searchValue=${searchValue}`);
-  }, []);
+    console.log(searchValue);
+    router.push(`/searchPage?keyword=${searchValue}`);
+  }, [searchValue]);
   return (
     <div className="relative  z-9  mx-auto mt-8 mb-12">
       <div className="grid grid-cols-[1fr_3fr] md:grid-cols-2 sm:grid-cols-[1fr_4fr] gap-4 items-center">
@@ -92,6 +89,7 @@ const NavBar = () => {
               onKeyDown={(e) => e.key === "Enter" && gotoSearchPage()}
               className="w-full placeholder:text-primary bg-transparent outline-none px-2"
               type="text"
+              value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search NFT"
             />
@@ -136,14 +134,15 @@ const NavBar = () => {
             <Button
               className="w-10/12 md:block hidden min-w-20 px-0"
               onClick={() => router.push("/uploadNFT")}
-              
             >
               Create
             </Button>
           )}
 
           <div className="relative cursor-pointer">
-            <Profile currentAccount={currentAccount!} account={account} />
+            {useMemo(() => (
+              <Profile currentAccount={currentAccount!} account={account} />
+            ),[currentAccount,account])}
           </div>
           <div className="relative cursor-pointer md:hidden">
             <CgMenuRight
