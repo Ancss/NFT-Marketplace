@@ -5,6 +5,7 @@ import { AccountSchema, NFTSchema } from '@/scheme';
 import { db } from '@/db/prisma';
 import { useId } from 'react';
 import { Optional } from '@prisma/client/runtime/library';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 
 
@@ -47,7 +48,8 @@ export async function UpdateAccount(params: z.infer<typeof AccountSchema>): Prom
 
 }
 
-export async function existAccountByAccountAddress(accountAddress: string): Promise<z.infer<typeof AccountSchema> | null> {
+
+export async function existAccountByAccountAddress(accountAddress: string) {
   try {
     let account = await db.account.findUnique({
       where: {

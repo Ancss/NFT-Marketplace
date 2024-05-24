@@ -22,6 +22,7 @@ import { TResponseData } from "@/types";
 import { useRouter } from "next/navigation";
 import { AccountSchema } from "@/scheme";
 import { z } from "zod";
+import { AccountType } from "@/Context/AccountProvider";
 
 // INTERNAL IMPORT
 
@@ -29,13 +30,13 @@ const Form = ({
   account,
   setAccount,
 }: {
-  account: z.infer<typeof AccountSchema>;
-  setAccount: Dispatch<SetStateAction<z.infer<typeof AccountSchema>>>;
+  account: AccountType;
+  setAccount: Dispatch<SetStateAction<AccountType>>;
 }) => {
   const { currentAccount, setError, setOpenError } = useContext(
     NFTMarketplaceContext
   )!;
-  const router = useRouter()
+  const router = useRouter();
   return (
     <div className={cn("w-full")}>
       <div>
