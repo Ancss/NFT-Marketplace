@@ -68,7 +68,7 @@ const DaysComponents: React.FC<DaysComponentProps> = ({ el, i }) => {
               <p>
                 Creator
                 <span className="font-semibold mx-2">
-                  Shoaib Bhai
+                  User
                   <small className="inline-block">
                     <MdVerified />
                   </small>

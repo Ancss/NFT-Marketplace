@@ -57,7 +57,7 @@ const contactus = () => {
                 <label htmlFor="name" className={cn('block w-full ml-4 font-bold text-xl')}>Full Name</label>
                 <input
                   type="text"
-                  placeholder="shoaib bhai"
+                  placeholder="User"
                   className={cn('w-full border border-icons p-4 rounded-xl bg-transparent mt-2 outline-none')}
                 />
               </div>

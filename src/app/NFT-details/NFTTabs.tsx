@@ -17,7 +17,7 @@ const NFTTabs = ({ dataTab, icon }: { dataTab: string[], icon?: React.ReactNode}
           />
           <div className={cn("grid self-start line-height-[1] mt-[6px]")}>
             <span className={cn("font-bold flex items-center")}>
-              Offer by $770 by <span>Shoaib Bhai</span>
+              Offer by $770 by <span>User</span>
               {icon}
             </span>
             <small className={cn("mt-[0.2rem]")}>Jun 14 - 4:12 PM</small>
