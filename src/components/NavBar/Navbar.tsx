@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Notification from "@/components/NavBar/Notification";
 import Error from "@/components/Error";
 import images from "@/img";
-import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext";
+import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 import Profile from "./Profile";
 import SideBar from "./SideBar";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { create2, createNewNFT,  } from "@/actions/NFT";
+import { AccountContext,  } from "@/Context/AccountProvider";
 
 const discoverItems = [
   {
@@ -74,6 +76,7 @@ const NavBar = () => {
   const { currentAccount, connectWallet, openError } = useContext(
     NFTMarketplaceContext
   )!;
+  const {account} = useContext(AccountContext)!
   const gotoSearchPage = useCallback(() => {
     router.push(`/searchPage?searchValue=${searchValue}`);
   }, []);
@@ -133,12 +136,14 @@ const NavBar = () => {
             <Button
               className="w-10/12 md:block hidden min-w-20 px-0"
               onClick={() => router.push("/uploadNFT")}
+              
             >
               Create
             </Button>
           )}
+
           <div className="relative cursor-pointer">
-            <Profile currentAccount={currentAccount!} />
+            <Profile currentAccount={currentAccount!} account={account} />
           </div>
           <div className="relative cursor-pointer md:hidden">
             <CgMenuRight
@@ -148,7 +153,6 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-
       {openSideMenu && (
         <div className="fixed left-0 top-0 w-9/12 bg-main-bg shadow-custom z-9 h-screen overflow-y-auto">
           <SideBar

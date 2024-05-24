@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import { LoadingSpinnerProvider } from "@/Context/LoadingSpinnerProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { AccountProvider } from "@/Context/AccountProvider";
 
 export const metadata: Metadata = {
   title: "NFT-Marketplace",
@@ -37,10 +38,12 @@ export default function RootLayout({
         <div className="w-full px-4 sm:px-12 md:px-16 lg:px-36 mx-auto">
           <LoadingSpinnerProvider>
             <NFTMarketplaceProvider>
-              <LoadingSpinner></LoadingSpinner>
-              <NavBar />
-              {children}
-              <Footer />
+              <AccountProvider>
+                <LoadingSpinner></LoadingSpinner>
+                <NavBar />
+                {children}
+                <Footer />
+              </AccountProvider>
             </NFTMarketplaceProvider>
           </LoadingSpinnerProvider>
         </div>

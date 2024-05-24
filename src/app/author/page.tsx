@@ -13,6 +13,7 @@ import AuthorNFTCardBox from "./AuthorNFTCardBox";
 import AuthorProfileCard from "./AuthorProfileCard";
 import AuthorTaps from "./AuthorTabs";
 import { TMarketItem } from "@/types";
+import { AccountContext } from "@/Context/AccountProvider";
 
 const Author = () => {
   const followerArray = [
@@ -57,6 +58,7 @@ const Author = () => {
   const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(
     NFTMarketplaceContext
   )!;
+  const {account} = useContext(AccountContext)
   const [nfts, setNfts] = useState<TMarketItem[]>([]);
   const [myNFTs, setMyNFTs] = useState<TMarketItem[]>([]);
 
@@ -81,7 +83,7 @@ const Author = () => {
   return (
     <div>
       <Banner bannerImage={images.creatorbackground2} />
-      <AuthorProfileCard currentAccount={currentAccount!} />
+      <AuthorProfileCard currentAccount={currentAccount!} account={account} />
       <AuthorTaps
         setCollectiables={setCollectiables}
         setCreated={setCreated}

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const AccountSchema = z.object({
-  id: z.string(),
+  accountAddress: z.string(),
   username: z.string().optional().nullable(),
   email: z.string().email().optional().nullable(),
   description: z.string().optional().nullable(),
@@ -22,12 +22,11 @@ const NFTSchema = z.object({
   sold: z.boolean(),
   tokenURI: z.string(),
   likes: z.array(z.lazy(() => LikeSchema)).optional(),
-  accountId: z.string(),
 });
 
 const LikeSchema = z.object({
   id: z.number().int(),
-  accountId: z.string(),
+  accountId: z.number(),
   liked: z.enum(['1', '0', '-1']),
   nftId: z.string().optional(),
 });
