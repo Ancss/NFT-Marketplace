@@ -1,0 +1,8 @@
+-- DropForeignKey
+ALTER TABLE "NFT" DROP CONSTRAINT "NFT_accountId_fkey";
+
+-- AlterTable
+ALTER TABLE "NFT" ALTER COLUMN "accountId" SET DATA TYPE TEXT;
+
+-- AddForeignKey
+ALTER TABLE "NFT" ADD CONSTRAINT "NFT_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("accountId") ON DELETE SET NULL ON UPDATE CASCADE;

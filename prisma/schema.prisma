@@ -14,36 +14,48 @@ datasource db {
 }
 
 model Account {
-  id          String  @unique
-  username    String?
-  email       String?
-  description String?
-  website     String?
-  facebook    String?
-  twitter     String?
-  instagram   String?
-  avatar      String?
-  likes       Like[]
-  nfts        NFT[]
+  id             Int      @id @default(autoincrement())
+  accountAddress String   @unique
+  username       String?
+  email          String?
+  description    String?
+  website        String?
+  facebook       String?
+  twitter        String?
+  instagram      String?
+  avatar         String?
+  likes          Like[]
+  nfts           NFT[]
+  createAt       DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model NFT {
-  tokenId   String   @unique
-  seller    String
-  owner     String
-  price     String
-  sold      Boolean
-  tokenURI  String
-  likes     Like[] // Array of likes
-  Account   Account? @relation(fields: [accountId], references: [id])
-  accountId String?
+  id             Int      @id @default(autoincrement())
+  tokenId        String   @unique
+  seller         String
+  owner          String
+  price          String
+  sold           Boolean
+  tokenURI       String
+  name           String
+  image          String
+  description    String
+  likes          Like[] // Array of likes
+  Account        Account? @relation(fields: [accountId], references: [id])
+  accountId      Int?
+  accountAddress String
+  createAt       DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Like {
-  id        Int     @id @default(autoincrement())
-  Account   Account @relation(fields: [accountId], references: [id])
-  accountId String // Reference to the User who liked/disliked
-  liked     Int     @default(-1) // 1 if liked, 0 if disliked, -1 if not touch
-  NFT       NFT?    @relation(fields: [nftId], references: [tokenId])
-  nftId     String?
+  id        Int      @id @default(autoincrement())
+  liked     Int      @default(-1) // 1 if liked, 0 if disliked, -1 if not touch
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  NFT       NFT?     @relation(fields: [nFTId], references: [id])
+  nFTId     Int?
+  Account   Account? @relation(fields: [accountId], references: [id])
+  accountId Int?
 }
