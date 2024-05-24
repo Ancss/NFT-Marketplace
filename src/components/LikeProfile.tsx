@@ -15,7 +15,6 @@ const LikeProfile = () => {
             width={15}
             height={15}
             key={i + 1}
-            layout="fixed"
             alt="like profile"
             className="rounded-full min-w-4 h-4"
           />
