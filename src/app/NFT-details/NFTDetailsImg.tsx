@@ -6,6 +6,7 @@ import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import React, { useState } from "react";
 import { TMarketItem } from "@/types";
 import { useSearchParams } from "next/navigation";
+import { Like } from "@/components/Like";
 
 const NFTDetailsImg = ({ nft }: { nft: TMarketItem }) => {
   const [description, setDescription] = useState(true);
@@ -24,10 +25,11 @@ const NFTDetailsImg = ({ nft }: { nft: TMarketItem }) => {
           <div className={cn("grid grid-cols-[1fr] grid-rows-[auto_auto] z-[11] self-start p-[2rem]")}>
             <div className={cn("flex items-center justify-between")}>
               <BsImages className={cn("text-[1.4rem]")} />
-              <p onClick={toggleLike} className={cn("bg-icons p-[0.2rem_1rem] text-main-bg flex items-center gap-[0.5rem] rounded-[2rem] cursor-pointer")}>
+              {/* <p onClick={toggleLike} className={cn("bg-icons p-[0.2rem_1rem] text-main-bg flex items-center gap-[0.5rem] rounded-[2rem] cursor-pointer")}>
                 {like ? <AiOutlineHeart className={cn("text-[1.4rem]")} /> : <AiFillHeart className={cn("text-[1.4rem]")} />}
                 <span>23</span>
-              </p>
+              </p> */}
+              <Like nFTTokenId={nft.tokenId!}></Like>
             </div>
             <div>
               <Image src={nft.image} alt="NFT image" width={500} height={500} className={cn("rounded-[1rem] w-full object-cover")} />

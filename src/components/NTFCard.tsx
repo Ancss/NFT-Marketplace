@@ -8,16 +8,17 @@ import { TMarketItem } from "@/types";
 import { useTimer } from "react-timer-hook";
 import React, { useState, useEffect, useContext, Suspense } from "react";
 import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
+import { LikeOrDislike } from "@/actions/NFT";
+import { Like } from "./Like";
 
 const NFTCard = () => {
-  const [like, setLike] = useState(true);
-  const { checkIfWalletConnected, currentAccount, nfts } = useContext(
+  const { checkIfWalletConnected, currentAccount, nfts,setNfts ,likes} = useContext(
     NFTMarketplaceContext
   )!;
-  [];
-  const likeNft = () => {
-    setLike(!like);
-  };
+
+
+
+
   const { seconds, minutes, hours, days } = useTimer({
     expiryTimestamp: new Date(
       new Date().getTime() + 1000 * (3 * 60 * 60 + 15 * 60 + 20)
@@ -66,17 +67,7 @@ const NFTCard = () => {
                   "bg-icons  rounded-full m-4 px-2 py-1 text-main-bg flex items-center gap-2 text-xl"
                 )}
               >
-                <div
-                  onClick={() => likeNft()}
-                  className=" w-full flex items-center justify-center gap-2"
-                >
-                  {like ? (
-                    <AiOutlineHeart />
-                  ) : (
-                    <AiFillHeart className={cn("text-main-bg")} />
-                  )}
-                  22
-                </div>
+                <Like nFTTokenId={el.tokenId!}></Like>
               </div>
 
               <div

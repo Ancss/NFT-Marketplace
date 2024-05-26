@@ -13,8 +13,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 //INTERNAL  IMPORT
 import { NFTMarketplaceAddress, NFTMarketplaceABI } from "./constants";
-import { TMarketItem } from "@/types";
-import { createNewNFT } from "@/actions/NFT";
+import { TLike, TMarketItem } from "@/types";
+import { createNewNFT, getLikes } from "@/actions/NFT";
 import { LoadingContext } from "./LoadingSpinnerProvider";
 
 export type CreateNFTParams = {
@@ -49,7 +49,10 @@ export type TNFTMarketplaceContextType = {
   setError: Dispatch<SetStateAction<string>>;
   error: string | null;
   accountBalance: string;
-  nfts: TMarketItem[]
+  nfts: TMarketItem[],
+  setNfts: Dispatch<SetStateAction<TMarketItem[]>>
+  likes: TLike[],
+  setLikes: Dispatch<SetStateAction<TLike[]>>
 };
 
 //---FETCHING SMART CONTRACT
@@ -115,6 +118,7 @@ const onMarketItemCreatedEvent = async (
 export const NFTMarketplaceContext =
   React.createContext<TNFTMarketplaceContextType | null>(null);
 
+
 export const NFTMarketplaceProvider = ({
   children,
 }: {
@@ -130,6 +134,7 @@ export const NFTMarketplaceProvider = ({
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [nfts, setNfts] = useState<TMarketItem[]>([]);
+  const [likes, setLikes] = useState<TLike[]>([]);
 
   //---CHECK IF WALLET IS CONNECTD
   const checkIfWalletConnected = async () => {
@@ -314,7 +319,6 @@ export const NFTMarketplaceProvider = ({
               unformattedPrice.toString(),
               "ether"
             );
-
             return {
               price,
               tokenId: tokenId?.toString(),
@@ -328,6 +332,8 @@ export const NFTMarketplaceProvider = ({
           }
         )
       );
+      fetchLikes(items.map(item => item.tokenId))
+
       return items;
 
       // }
@@ -341,9 +347,14 @@ export const NFTMarketplaceProvider = ({
 
   useEffect(() => {
     fetchNFTs().then((items: TMarketItem[]) => {
+      console.log('fetchNFTs', items)
       setNfts(items?.reverse());
     });
   }, []);
+  const fetchLikes = async (tokenIds: string[]) => {
+    const likes:TLike[] = await Promise.all(tokenIds.map(async (tokenId) => await getLikes({ tokenId: tokenId!.toString() }).then(res=>res.data)))
+    setLikes(likes)
+  }
 
   //--FETCHING MY NFT OR LISTED NFTs
   const fetchMyNFTsOrListedNFTs: TNFTMarketplaceContextType["fetchMyNFTsOrListedNFTs"] =
@@ -457,7 +468,10 @@ export const NFTMarketplaceProvider = ({
         openError,
         error,
         accountBalance,
-        nfts
+        nfts,
+        setNfts,
+        likes,
+        setLikes
       }}
     >
       {children}

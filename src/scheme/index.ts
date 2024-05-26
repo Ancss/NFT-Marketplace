@@ -26,9 +26,9 @@ const NFTSchema = z.object({
 
 const LikeSchema = z.object({
   id: z.number().int(),
-  accountId: z.number(),
+  accountAddress: z.string(),
   liked: z.enum(['1', '0', '-1']),
-  nftId: z.string().optional(),
+  nFTTokenId: z.string().optional(),
 });
 
 export { AccountSchema, NFTSchema, LikeSchema };

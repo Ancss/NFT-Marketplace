@@ -21,10 +21,13 @@ const SearchPage = () => {
   useEffect(() => {
     try {
       // if (currentAccount) {
+        console.log('fetchNFTS')
       fetchNFTs().then((items: TMarketItem[]) => {
+        console.log(items);
         setNfts(items?.reverse());
         setNftsCopy(items);
-        console.log(nfts);
+      }).catch((reason)=>{
+        console.log(reason)
       });
       // }
     } catch (error) {

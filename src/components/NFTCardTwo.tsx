@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { TMarketItem } from '@/types';
 import LikeProfile from './LikeProfile';
+import { Like } from './Like';
 
 const NFTCardTwo = ({ NFTs }: { NFTs: TMarketItem[] }) => {
   const [like, setLike] = useState(false);
@@ -26,10 +27,11 @@ const NFTCardTwo = ({ NFTs }: { NFTs: TMarketItem[] }) => {
             <div className={cn('absolute w-full p-4 grid-cols-1 z-2')}>
               <div className={cn('flex items-center w-full justify-between')}>
                 <BsImage className={cn('text-icons text-4xl')} />
-                <p onClick={likeNFT} className={cn('flex items-center gap-4 text-[1.2rem] bg-icons text-main-bg rounded-full px-2 py-1')}>
+                {/* <p onClick={likeNFT} className={cn('flex items-center gap-4 text-[1.2rem] bg-icons text-main-bg rounded-full px-2 py-1')}>
                   {like ? <AiFillHeart /> : <AiOutlineHeart />}
                   <span>{likeInc}</span>
-                </p>
+                </p> */}
+                <Like nFTTokenId={el.tokenId!}></Like>
               </div>
             </div>
             <div className={cn('grid-cols-1')}>

@@ -1,4 +1,5 @@
-import { ZodError } from "zod";
+import { LikeSchema } from "@/scheme";
+import { ZodError, z } from "zod";
 
 export type TMarketItem = {
   tokenId: string | null;
@@ -10,8 +11,9 @@ export type TMarketItem = {
   name: string;
   description?: string;
   tokenURI?: string;
-
 };
+
+export type TLike  = z.infer<typeof LikeSchema>
 
 export type TResponseData = {
   success: Boolean,
