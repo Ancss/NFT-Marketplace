@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsImages } from "react-icons/bs";
 import Image from "next/image";
@@ -11,23 +11,28 @@ import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 import { LikeOrDislike } from "@/actions/NFT";
 import { Like } from "./Like";
 
-const NFTCard = () => {
-  const { checkIfWalletConnected, currentAccount, nfts,setNfts ,likes} = useContext(
-    NFTMarketplaceContext
-  )!;
-
-
-
-
+const Time = () => {
   const { seconds, minutes, hours, days } = useTimer({
     expiryTimestamp: new Date(
       new Date().getTime() + 1000 * (3 * 60 * 60 + 15 * 60 + 20)
     ),
   });
+  const formatTime = (num: number) => { return num < 10 ? `0${num}` : num; };
+  return (
+    <span>
+      {`${formatTime(hours)}h : ${formatTime(minutes)}m : ${formatTime(
+        seconds
+      )}s`}{" "}
+    </span>
 
-  const formatTime = (num: number) => {
-    return num < 10 ? `0${num}` : num;
-  };
+  );
+};
+
+const NFTCard = () => {
+  const { checkIfWalletConnected, currentAccount, nfts, setNfts, likes } =
+    useContext(NFTMarketplaceContext)!;
+
+
   return (
     <div
       className={cn(
@@ -52,7 +57,7 @@ const NFTCard = () => {
                 height={768}
                 alt="NFT images"
                 className={cn(
-                  "col-span-full object-fill row-span-full transition-all duration-400 ease-in-out w-full hover:scale-105"
+                  "col-span-full object-fill row-span-full transition-all duration-400 ease-in-out w-full"
                 )}
               />
             </div>
@@ -62,38 +67,30 @@ const NFTCard = () => {
                 " col-[1/-1] row-[1/2] z-9 flex items-start justify-between overflow-hidden"
               )}
             >
-              <div
-                className={cn(
-                  "bg-icons  rounded-full m-4 px-2 py-1 text-main-bg flex items-center gap-2 text-xl"
-                )}
-              >
-                <Like nFTTokenId={el.tokenId!}></Like>
-              </div>
+              <Like nFTTokenId={el.tokenId!}></Like>
 
               <div
                 className={cn(
-                  " text-primary bg-main-bg skew-x-[45deg] px-16 py-4 text-center  mr-[-2rem] rounded-bl-lg"
+                  " text-primary bg-main-bg skew-x-[45deg] px-8 py-4 text-center  mr-[-2rem] rounded-bl-lg"
                 )}
-              >
-                <div className={cn("skew-x-[-45deg] bg-main-bg")}>
+              > <div className={cn("skew-x-[-45deg] bg-main-bg")}>
                   <p className={cn("text-xl font-bold whitespace-nowrap")}>
                     {" "}
-                    {`${formatTime(hours)}h : ${formatTime(
-                      minutes
-                    )}m : ${formatTime(seconds)}s`}
+                    <Time></Time>
                   </p>
                 </div>
+
               </div>
             </div>
 
             <div
               className={cn(
-                " col-[1/4] row-[3/-1] overflow-hidden   items-end  pb-0"
+                " col-[1/-1] row-[3/-1] overflow-hidden   items-end  pb-0"
               )}
             >
               <div
                 className={cn(
-                  "bg-main-bg ml-[-3rem]  h-full skew-x-[35deg] p-2 w-max  rounded-tr-lg"
+                  "bg-main-bg ml-[-3rem]  h-full skew-x-[35deg] overflow-hidden text-ellipsis whitespace-nowrap p-2 w-max  rounded-tr-lg"
                 )}
               >
                 <div className={cn("pl-12  skew-x-[-35deg]")}>

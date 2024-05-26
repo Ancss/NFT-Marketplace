@@ -51,8 +51,10 @@ export type TNFTMarketplaceContextType = {
   accountBalance: string;
   nfts: TMarketItem[],
   setNfts: Dispatch<SetStateAction<TMarketItem[]>>
-  likes: TLike[],
-  setLikes: Dispatch<SetStateAction<TLike[]>>
+  likes: TLike[][],
+  setLikes: Dispatch<SetStateAction<TLike[][]>>
+  openSwitchNetwork: boolean,
+  setOpenSwitchNetwork: Dispatch<SetStateAction<boolean>>
 };
 
 //---FETCHING SMART CONTRACT
@@ -134,7 +136,8 @@ export const NFTMarketplaceProvider = ({
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [nfts, setNfts] = useState<TMarketItem[]>([]);
-  const [likes, setLikes] = useState<TLike[]>([]);
+  const [likes, setLikes] = useState<TLike[][]>([]);
+  const [openSwitchNetwork, setOpenSwitchNetwork] = useState(false);
 
   //---CHECK IF WALLET IS CONNECTD
   const checkIfWalletConnected = async () => {
@@ -142,6 +145,13 @@ export const NFTMarketplaceProvider = ({
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
 
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const network = await provider.getNetwork();
+      // expect chainId  80002
+      if (network.chainId !== 80002) {
+        setOpenSwitchNetwork(true)
+      }
       const accounts = await window.ethereum.request({
         method: "eth_accounts",
       });
@@ -155,9 +165,6 @@ export const NFTMarketplaceProvider = ({
         console.log("No account");
       }
 
-      const connection = await web3Modal.connect();
-
-      const provider = new ethers.providers.Web3Provider(connection);
       const getBalance = await provider.getBalance(accounts?.[0]!);
       const bal = ethers.utils.formatEther(getBalance);
       setAccountBalance(bal);
@@ -352,7 +359,8 @@ export const NFTMarketplaceProvider = ({
     });
   }, []);
   const fetchLikes = async (tokenIds: string[]) => {
-    const likes:TLike[] = await Promise.all(tokenIds.map(async (tokenId) => await getLikes({ tokenId: tokenId!.toString() }).then(res=>res.data)))
+    console.log(tokenIds)
+    const likes: TLike[][] = await Promise.all(tokenIds.map(async (tokenId) => await getLikes({ tokenId: tokenId!.toString() }).then(res => res.data)))
     setLikes(likes)
   }
 
@@ -471,7 +479,9 @@ export const NFTMarketplaceProvider = ({
         nfts,
         setNfts,
         likes,
-        setLikes
+        setLikes,
+        openSwitchNetwork,
+        setOpenSwitchNetwork
       }}
     >
       {children}

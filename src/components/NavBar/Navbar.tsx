@@ -28,6 +28,7 @@ import {
 import { create2, createNewNFT } from "@/actions/NFT";
 import { AccountContext } from "@/Context/AccountProvider";
 import { UpdateAccount } from "@/actions/Account";
+import SwitchNetwork from "../SwitchNetwork";
 
 const discoverItems = [
   {
@@ -70,7 +71,7 @@ const NavBar = () => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
-  const { currentAccount, connectWallet, openError } = useContext(
+  const { currentAccount, connectWallet, openError ,openSwitchNetwork} = useContext(
     NFTMarketplaceContext
   )!;
   const { account } = useContext(AccountContext)!;
@@ -164,6 +165,7 @@ const NavBar = () => {
         </div>
       )}
       {openError && <Error />}
+      {openSwitchNetwork && <SwitchNetwork />}
     </div>
   );
 };
