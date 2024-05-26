@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { BsFillAlarmFill, BsFillCalendarDateFill, BsCalendar3 } from 'react-icons/bs';
 import DaysComponent from './DaysComponents'; 
