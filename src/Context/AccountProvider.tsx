@@ -2,7 +2,9 @@
 import { existAccountByAccountAddress } from "@/actions/Account";
 import { AccountSchema } from "@/scheme";
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useContext,
   useEffect,
@@ -13,7 +15,7 @@ import { NFTMarketplaceContext } from "./NFTMarketplaceContext";
 
 export type AccountType = Partial<z.infer<typeof AccountSchema>>;
 
-const accountData:AccountType = {
+const accountData: AccountType = {
   username: "",
   email: "",
   description: "",
@@ -25,10 +27,7 @@ const accountData:AccountType = {
   accountAddress: "",
 };
 
-export const AccountContext = createContext({
-  account: accountData,
-  setAccount: (params: AccountType) => {},
-});
+export const AccountContext = createContext<{ account: AccountType, setAccount: Dispatch<SetStateAction<AccountType>> } | null>(null);
 
 export const useLoading = () => useContext(AccountContext);
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
