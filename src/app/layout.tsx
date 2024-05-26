@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { LoadingSpinnerProvider } from "@/Context/LoadingSpinnerProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { AccountProvider } from "@/Context/AccountProvider";
+import { Suspense } from "react";
+import Loader from "@/components/Loader";
 
 export const metadata: Metadata = {
   title: "NFT-Marketplace",
@@ -39,10 +41,12 @@ export default function RootLayout({
           <LoadingSpinnerProvider>
             <NFTMarketplaceProvider>
               <AccountProvider>
-                <LoadingSpinner></LoadingSpinner>
-                <NavBar />
-                {children}
-                <Footer />
+                <Suspense fallback={<Loader></Loader>}>
+                  <LoadingSpinner></LoadingSpinner>
+                  <NavBar />
+                  {children}
+                  <Footer />
+                </Suspense>
               </AccountProvider>
             </NFTMarketplaceProvider>
           </LoadingSpinnerProvider>
