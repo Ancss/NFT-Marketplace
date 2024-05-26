@@ -50,12 +50,12 @@ model NFT {
 }
 
 model Like {
-  id        Int      @id @default(autoincrement())
-  liked     Int      @default(-1) // 1 if liked, 0 if disliked, -1 if not touch
-  createAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  NFT       NFT?     @relation(fields: [nFTId], references: [id])
-  nFTId     Int?
-  Account   Account? @relation(fields: [accountId], references: [id])
-  accountId Int?
+  id         Int      @id @default(autoincrement())
+  liked      Int      @default(-1) // 1 if liked, 0 if disliked, -1 if not touch
+  createAt   DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  NFT        NFT?     @relation(fields: [nFTTokenId], references: [tokenId])
+  nFTTokenId String?
+  Account    Account? @relation(fields: [accountAddress], references: [accountAddress])
+  accountAddress  String?
 }
