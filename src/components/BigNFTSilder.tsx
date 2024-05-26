@@ -95,7 +95,7 @@ const BigNFTSilder = () => {
 
   return (
     <div className="mt-16 mb-36 md:mb-12 mx-auto w-4/5tt">
-      <div className="grid grid-cols-1 grid-rows-12 md:grid-cols-12 md:grid-rows-12 gap-8 items-center h-[80vh]">
+      <div className="grid grid-cols-1 grid-rows-12 md:grid-cols-12 md:grid-rows-12 gap-8 items-center">
         <div className=" md:h-full row-[6/-1] col-span-full md:col-[1_/7] border border-primary md:row-span-full bg-main-bg shadow-custom rounded-lg p-8 relative z-10 overflow-hidden">
           <h2 className="text-3xl mb-4">{sliderData[idNumber].title}</h2>
           <div className="flex justify-between">
