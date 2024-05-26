@@ -125,7 +125,7 @@ const BigNFTSilder = () => {
               <MdTimer className="text-2xl" />
               <span>Auction ending in</span>
             </div>
-            <div className="flex items-center gap-8 mt-4 pb-12 border-b border-shadow-dark text-center">
+            <div className="flex items-center gap-8 mt-4 pb-8 border-b border-shadow-dark text-center">
               <div><p className="text-2xl font-bold">{sliderData[idNumber].time.days}</p><span>Days</span></div>
               <div><p className="text-2xl font-bold">{sliderData[idNumber].time.hours}</p><span>Hours</span></div>
               <div><p className="text-2xl font-bold">{sliderData[idNumber].time.minutes}</p><span>mins</span></div>
