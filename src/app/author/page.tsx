@@ -58,7 +58,7 @@ const Author = () => {
   const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(
     NFTMarketplaceContext
   )!;
-  const {account} = useContext(AccountContext)
+  const {account} = useContext(AccountContext)!
   const [nfts, setNfts] = useState<TMarketItem[]>([]);
   const [myNFTs, setMyNFTs] = useState<TMarketItem[]>([]);
 
