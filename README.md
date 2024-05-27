@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NFT-Marketplace (Your Project Name)
 
-## Getting Started
+[![Live Demo](https://img.shields.io/badge/Live_Demo-brightgreen.svg)](https://nft-marketplace-brown-theta.vercel.app/)
 
-First, run the development server:
+## Introduction
+Use Ethers.js for blockchain interactions, Next.js 14 with server actions for backend logic, PostgreSQL with Prisma as the ORM, and Neon for database services, Tailwind CSS to ensure a responsive experience across various screen sizes.Users can browse, create, purchase, and search for NFTs with ease.
 
+## Screenshots
+![Home Page](/public/readme/pc/1716810682134.jpg)
+![Detail Page](/public/readme/pc/1716810934897.jpg)
+![Search Page](/public/readme/pc/1716810987049.jpg)
+
+
+
+
+| | |  |
+|-----------|-----------------|-----------------|
+| ![Home Page](/public/readme/mobile/1716810780664.jpg) | ![Home Page](/public/readme/mobile/1716810794720.jpg) | ![Home Page](/public/readme/mobile/1716810840218.jpg) |
+|![Purchase NFT Page](/public/readme/mobile/1716810864162.jpg) | ![Create NFT Page](/public/readme/mobile/1716810900624.jpg) |![Create NFT Page](/public/readme/mobile/1716811511841.jpg)|
+
+## How to Run
+1. Clone the repository to your local machine
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Ancss/NFT-Marketplace.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate to the project directory
+```bash
+cd project-name
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Install dependencies
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Rename .env.local.example to .env.local and enter right key inside the file
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. Start the project
+```bash
+npm run dev
+```
