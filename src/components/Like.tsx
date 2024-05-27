@@ -30,7 +30,9 @@ export const Like = memo(
     const fetchLikes = useCallback(() => {
       getLikes({ tokenId: nFTTokenId }).then((res) => {
         console.log(res, nftLikes);
-        setNftLikes(res.data);
+        const likes = res.data.filter((item:TLike) => item.liked == '1')
+        console.log(likes)
+        setNftLikes(likes);
       });
     }, [currentAccount, nFTTokenId]);
     useEffect(() => {

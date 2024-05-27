@@ -101,7 +101,7 @@ export const LikeOrDislike = async ({
       data: {
         accountAddress: accountAddress,
         nFTTokenId: tokenId,
-        liked: 1,
+        liked: 0,
       },
     });
   }
