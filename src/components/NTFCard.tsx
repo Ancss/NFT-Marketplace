@@ -67,7 +67,7 @@ const NFTCard = () => {
                 " col-[1/-1] row-[1/2] z-9 flex items-start justify-between overflow-hidden"
               )}
             >
-              <Like nFTTokenId={el.tokenId!}></Like>
+              <Like nFTTokenId={el.tokenId!} currentAccount={currentAccount!}></Like>
 
               <div
                 className={cn(

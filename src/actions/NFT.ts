@@ -63,10 +63,12 @@ export async function createNewNFT(data: z.infer<typeof NFTSchema>) {
 }
 
 export const getLikes = async ({ tokenId }: { tokenId: string }) => {
+
   try {
     const likes = await db.like.findMany({
       where: { nFTTokenId: tokenId },
     });
+    console.log(likes)
     return {
       success: true,
       data: JSON.parse(JSON.stringify(likes)),
@@ -106,7 +108,7 @@ export const LikeOrDislike = async ({
   await db.like.update({
     where: {
       id: like.id,
-     
+
     },
     data: {
       liked: like.liked === 0 ? 1 : 0,

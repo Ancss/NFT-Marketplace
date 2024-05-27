@@ -49,12 +49,12 @@ export type TNFTMarketplaceContextType = {
   setError: Dispatch<SetStateAction<string>>;
   error: string | null;
   accountBalance: string;
-  nfts: TMarketItem[],
-  setNfts: Dispatch<SetStateAction<TMarketItem[]>>
-  likes: TLike[][],
-  setLikes: Dispatch<SetStateAction<TLike[][]>>
-  openSwitchNetwork: boolean,
-  setOpenSwitchNetwork: Dispatch<SetStateAction<boolean>>
+  nfts: TMarketItem[];
+  setNfts: Dispatch<SetStateAction<TMarketItem[]>>;
+  likes: TLike[][];
+  setLikes: Dispatch<SetStateAction<TLike[][]>>;
+  openSwitchNetwork: boolean;
+  setOpenSwitchNetwork: Dispatch<SetStateAction<boolean>>;
 };
 
 //---FETCHING SMART CONTRACT
@@ -120,7 +120,6 @@ const onMarketItemCreatedEvent = async (
 export const NFTMarketplaceContext =
   React.createContext<TNFTMarketplaceContextType | null>(null);
 
-
 export const NFTMarketplaceProvider = ({
   children,
 }: {
@@ -150,7 +149,7 @@ export const NFTMarketplaceProvider = ({
       const network = await provider.getNetwork();
       // expect chainId  80002
       if (network.chainId !== 80002) {
-        setOpenSwitchNetwork(true)
+        setOpenSwitchNetwork(true);
       }
       const accounts = await window.ethereum.request({
         method: "eth_accounts",
@@ -277,15 +276,15 @@ export const NFTMarketplaceProvider = ({
       const contract = await connectingWithSmartContract();
       if (!contract) return;
       const listingPrice = await contract.getListingPrice();
-      console.log(listingPrice, accountBalance)
+      console.log(listingPrice, accountBalance);
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
-          value: listingPrice.toString(),
-        })
+            value: listingPrice.toString(),
+          })
         : await contract.resellToken(id, price, {
-          value: listingPrice.toString(),
-        });
-      console.log(transaction)
+            value: listingPrice.toString(),
+          });
+      console.log(transaction);
       await transaction.wait();
       setLoading(false);
       console.log(transaction);
@@ -339,7 +338,6 @@ export const NFTMarketplaceProvider = ({
           }
         )
       );
-      fetchLikes(items.map(item => item.tokenId))
 
       return items;
 
@@ -354,15 +352,10 @@ export const NFTMarketplaceProvider = ({
 
   useEffect(() => {
     fetchNFTs().then((items: TMarketItem[]) => {
-      console.log('fetchNFTs', items)
+      console.log("fetchNFTs", items);
       setNfts(items?.reverse());
     });
   }, []);
-  const fetchLikes = async (tokenIds: string[]) => {
-    console.log(tokenIds)
-    const likes: TLike[][] = await Promise.all(tokenIds.map(async (tokenId) => await getLikes({ tokenId: tokenId!.toString() }).then(res => res.data)))
-    setLikes(likes)
-  }
 
   //--FETCHING MY NFT OR LISTED NFTs
   const fetchMyNFTsOrListedNFTs: TNFTMarketplaceContextType["fetchMyNFTsOrListedNFTs"] =
@@ -481,7 +474,7 @@ export const NFTMarketplaceProvider = ({
         likes,
         setLikes,
         openSwitchNetwork,
-        setOpenSwitchNetwork
+        setOpenSwitchNetwork,
       }}
     >
       {children}

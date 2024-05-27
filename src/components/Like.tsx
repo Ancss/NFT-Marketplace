@@ -2,44 +2,40 @@ import { NFTMarketplaceContext } from "@/Context/NFTMarketplaceContext";
 import { LikeOrDislike, getLikes } from "@/actions/NFT";
 import { cn } from "@/lib/utils";
 import { TLike } from "@/types";
-import { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 export const Like = memo(
-  function Like({ nFTTokenId }: { nFTTokenId: string }) {
-    const {
-      checkIfWalletConnected,
-      currentAccount,
-      nfts,
-      setNfts,
-      likes,
-      setLikes,
-    } = useContext(NFTMarketplaceContext)!;
-
-    const [nftLikes, setNftLikes] = useState<TLike[]>([])
-    useEffect(() => {
-      const nftLikes = likes.filter(
-        (item) =>
-          item[0] &&
-          item.some(
-            (subItem) => {
-              console.log(subItem.nFTTokenId == nFTTokenId && subItem.liked == '1')
-              return subItem.nFTTokenId == nFTTokenId && subItem.liked == '1'
-            }
-          )
-      )[0]
-      setNftLikes(nftLikes)
-    })
+  function Like({
+    nFTTokenId,
+    currentAccount,
+  }: {
+    nFTTokenId: string;
+    currentAccount: string;
+  }) {
+    const [nftLikes, setNftLikes] = useState<TLike[]>([]);
     const likeNft = useCallback(() => {
       if (currentAccount) {
         LikeOrDislike({ tokenId: nFTTokenId, accountAddress: currentAccount });
-        getLikes({ tokenId: nFTTokenId }).then(res => {
-          console.log(res.data,nftLikes)
-          setNftLikes(res.data)
-        })
-
+        fetchLikes();
       }
-    }, [currentAccount]);
+    }, [currentAccount, nFTTokenId]);
+    const fetchLikes = useCallback(() => {
+      getLikes({ tokenId: nFTTokenId }).then((res) => {
+        console.log(res, nftLikes);
+        setNftLikes(res.data);
+      });
+    }, [currentAccount, nFTTokenId]);
+    useEffect(() => {
+      fetchLikes();
+    }, [currentAccount, nFTTokenId]);
     return (
       <div
         onClick={(e) => {
@@ -67,6 +63,9 @@ export const Like = memo(
     );
   },
   (prevProps, nextProps) => {
-    return prevProps.nFTTokenId === nextProps.nFTTokenId;
+    return (
+      prevProps.nFTTokenId === nextProps.nFTTokenId &&
+      prevProps.currentAccount === nextProps.currentAccount
+    );
   }
 );
