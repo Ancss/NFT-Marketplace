@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3331",
-    "build": "next build",
+    "build": "prisma generate &&next build",
     "start": "next start",
     "test": "env-cmd -f .env.test next dev",
     "lint": "next lint",
