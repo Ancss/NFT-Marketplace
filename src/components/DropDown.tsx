@@ -21,7 +21,7 @@ const DropDown = ({
   return (
     <div className={cn(className)}>
       <DropdownMenu >
-        <DropdownMenuTrigger className="" asChild >
+        <DropdownMenuTrigger className=""  >
           {text || children}
         </DropdownMenuTrigger >
         <DropdownMenuContent align='end' className=" bg-main-bg border border-primary">

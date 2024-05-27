@@ -105,14 +105,12 @@ const NavBar = () => {
         <div className="grid grid-cols-[1fr_1fr_1fr] md:grid-cols-[1fr_1fr_0.5fr_1fr_0.5fr]  gap-4 items-center justify-items-center">
           <DropDown
             items={discoverItems}
-            text="Discover"
             className="cursor-pointer text-lg md:block hidden"
-          ></DropDown>
+          >Discover</DropDown>
           <DropDown
             items={helpItems}
-            text="Help Center"
             className="cursor-pointer text-lg md:block hidden whitespace-nowrap"
-          ></DropDown>
+          >Help Center</DropDown>
           <div className="relative cursor-pointer">
             <DropdownMenu>
               <DropdownMenuTrigger className="">
