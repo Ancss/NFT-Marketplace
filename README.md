@@ -1,6 +1,6 @@
 # NFT-Marketplace (Your Project Name)
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-brightgreen.svg)](https://nft-marketplace-brown-theta.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-brightgreen.svg)](https://nft.chichi.hair/)
 
 ## Introduction
 Use Ethers.js for blockchain interactions, Next.js 14 with server actions for backend logic, PostgreSQL with Prisma as the ORM, and Neon for database services,Shadn Ui as Ui library, Tailwind CSS to ensure a responsive experience across various screen sizes.Users can browse, create, purchase, and search for NFTs with ease.
